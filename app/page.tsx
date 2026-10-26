@@ -1,9 +1,9 @@
+export const instant = false;
 import { getRecentEvents } from "@/actions/eventActions";
 import DashboardTabs from "@/components/DashboardTabs";
 import { isAdminAuthenticated } from "@/lib/adminAuth";
 import { redirect } from "next/navigation";
 
-export const instant = false;
 
 export default async function Home() {
   if (!(await isAdminAuthenticated())) {
