@@ -1,4 +1,4 @@
-export const dynamic = 'force-dynamic';
+export const instant = false;
 import CopyInviteLink from "@/components/CopyInviteLink";
 import DeleteEventButton from "@/components/DeleteEventButton";
 import { getEventById } from "@/lib/eventQueries";
@@ -6,7 +6,6 @@ import Link from "next/link";
 import { isAdminAuthenticated } from "@/lib/adminAuth";
 import { redirect } from "next/navigation";
 
-export const instant = false;
 
 type Props = { params: Promise<{ id: string }> };
 
