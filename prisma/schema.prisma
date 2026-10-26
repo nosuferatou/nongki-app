@@ -1,0 +1,32 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model Event {
+  id           String   @id @default(uuid())
+  title        String
+  eventDate    DateTime
+  locationName String
+  locationUrl  String
+  description  String?
+  maxGuests    Int
+  notes        String?
+  isClosed     Boolean  @default(false)
+  createdAt    DateTime @default(now())
+  guests       Guest[]
+}
+
+model Guest {
+  id        String   @id @default(uuid())
+  eventId   String
+  name      String
+  status    String   // "ACCEPT" atau "DECLINE"
+  reason    String?  // Alasan kalau decline (opsional)
+  createdAt DateTime @default(now())
+  event     Event    @relation(fields: [eventId], references: [id])
+}
