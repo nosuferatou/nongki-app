@@ -1,3 +1,4 @@
+export const dynamic = 'force-dynamic';
 import CopyInviteLink from "@/components/CopyInviteLink";
 import DeleteEventButton from "@/components/DeleteEventButton";
 import { getEventById } from "@/lib/eventQueries";
