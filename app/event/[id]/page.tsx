@@ -125,8 +125,8 @@ export default async function EventDetailPage({ params }: Props) {
           Shareable Invite Link
         </h2>
         <CopyInviteLink
-          inviteUrl={`http://localhost:3000/invite/${event.id}`}
-        />
+  inviteUrl={`${process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"}/invite/${event.id}`}
+/>
       </section>
 
       <section
