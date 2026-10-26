@@ -16,12 +16,10 @@ function getSessionSecret(): string | undefined {
   if (process.env.ADMIN_SESSION_SECRET) {
     return process.env.ADMIN_SESSION_SECRET.length >= 32
       ? process.env.ADMIN_SESSION_SECRET
-      : undefined;
+      : getAdminPassword();
   }
 
-  return process.env.NODE_ENV === "development"
-    ? getAdminPassword()
-    : undefined;
+  return getAdminPassword();
 }
 
 export function createAdminSessionSignature(): string | undefined {
