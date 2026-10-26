@@ -14,38 +14,15 @@ type InviteRsvpFormProps = {
 
 export default function InviteRsvpForm({ eventId }: InviteRsvpFormProps) {
   const [status, setStatus] = useState<"ACCEPT" | "DECLINE">("ACCEPT");
-  const [isSubmitted, setIsSubmitted] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   async function handleSubmit(formData: FormData): Promise<void> {
     setError(null);
     const result = await submitRsvp(formData);
 
-    if (result.success) {
-      setIsSubmitted(true);
-    } else {
+    if (!result.success) {
       setError(result.error ?? "Unable to submit your RSVP. Please try again.");
     }
-  }
-
-  if (isSubmitted) {
-    return (
-      <section
-        aria-labelledby="rsvp-success-heading"
-        aria-live="polite"
-        className="rounded-2xl bg-gray-50 px-6 py-8 text-center"
-      >
-        <h2
-          id="rsvp-success-heading"
-          className="text-lg font-bold tracking-wide text-gray-900"
-        >
-          RSVP SUBMITTED
-        </h2>
-        <p className="mt-3 text-sm leading-6 text-gray-600">
-          Thank you for your response. Your attendance status has been recorded.
-        </p>
-      </section>
-    );
   }
 
   return (

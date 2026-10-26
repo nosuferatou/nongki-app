@@ -1,6 +1,7 @@
 "use server";
 
 import { revalidatePath } from "next/cache";
+import { redirect } from "next/navigation";
 import { prisma } from "@/lib/prisma";
 
 export async function submitRsvp(
@@ -32,6 +33,13 @@ export async function submitRsvp(
     return { success: false, error: "Please provide valid RSVP details." };
   }
 
+  if (statusValue === "DECLINE" && !reason) {
+    return {
+      success: false,
+      error: "Please include a reason when declining the invitation.",
+    };
+  }
+
   const event = await prisma.event.findUnique({
     where: { id: eventId },
     select: { isClosed: true },
@@ -48,15 +56,21 @@ export async function submitRsvp(
     };
   }
 
-  await prisma.guest.create({
-    data: {
-      eventId,
-      name,
-      status: statusValue,
-      reason: reason || null,
-    },
-  });
+  try {
+    await prisma.guest.create({
+      data: {
+        eventId,
+        name,
+        status: statusValue,
+        reason: reason || null,
+      },
+    });
+  } catch (error) {
+    console.error("Failed to submit RSVP.", error);
+    return { success: false, error: "Unable to submit your RSVP. Please try again." };
+  }
 
-  revalidatePath("/event/[id]", "page");
-  return { success: true };
+  revalidatePath(`/invite/${eventId}`);
+  revalidatePath(`/event/${eventId}`);
+  redirect(`/event/${eventId}?submitted=1`);
 }

@@ -61,3 +61,11 @@ export async function loginAction(
 
   redirect("/");
 }
+
+export async function logoutAction(): Promise<never> {
+  const cookieStore = await cookies();
+  cookieStore.delete(ADMIN_AUTH_COOKIE);
+  cookieStore.delete(ADMIN_AUTH_SIGNATURE_COOKIE);
+
+  redirect("/login");
+}
