@@ -4,6 +4,7 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { useActionState } from "react";
 import { createEvent } from "@/actions/eventActions";
+import LocationUrlInput from "@/components/LocationUrlInput";
 
 type EventActionState = Awaited<ReturnType<typeof createEvent>>;
 
@@ -90,19 +91,10 @@ export default function CreateEventForm() {
             />
           </div>
 
-          <div>
-            <label htmlFor="locationUrl" className={labelClassName}>
-              Location link <span aria-hidden="true">*</span>
-            </label>
-            <input
-              id="locationUrl"
-              name="locationUrl"
-              type="url"
-              placeholder="https://"
-              required
-              className={fieldClassName}
-            />
-          </div>
+          <LocationUrlInput
+            className={fieldClassName}
+            labelClassName={labelClassName}
+          />
         </div>
 
         <div>

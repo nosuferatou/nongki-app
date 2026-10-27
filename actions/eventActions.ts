@@ -28,6 +28,26 @@ export async function createEvent(
     return { success: false, error: "Please complete all required fields." };
   }
 
+  try {
+    const parsedLocationUrl = new URL(locationUrl);
+    if (
+      !/^https?:\/\//i.test(locationUrl) ||
+      (parsedLocationUrl.protocol !== "http:" &&
+        parsedLocationUrl.protocol !== "https:") ||
+      !parsedLocationUrl.hostname
+    ) {
+      return {
+        success: false,
+        error: "Location URL must be a valid http:// or https:// web address.",
+      };
+    }
+  } catch {
+    return {
+      success: false,
+      error: "Location URL must be a valid http:// or https:// web address.",
+    };
+  }
+
   const eventDate = new Date(eventDateValue);
   if (Number.isNaN(eventDate.getTime())) {
     return { success: false, error: "Please provide a valid event date." };

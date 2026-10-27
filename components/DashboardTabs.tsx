@@ -4,6 +4,7 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createEvent } from "@/actions/eventActions";
+import LocationUrlInput from "@/components/LocationUrlInput";
 
 type DashboardEvent = {
   id: string;
@@ -210,18 +211,10 @@ export default function DashboardTabs({ events }: DashboardTabsProps) {
               />
             </div>
 
-            <div>
-              <label htmlFor="locationUrl" className={labelClassName}>
-                Location URL
-              </label>
-              <input
-                id="locationUrl"
-                name="locationUrl"
-                type="url"
-                required
-                className={inputClassName}
-              />
-            </div>
+            <LocationUrlInput
+              className={inputClassName}
+              labelClassName={labelClassName}
+            />
 
             <div>
               <label htmlFor="description" className={labelClassName}>
