@@ -5,9 +5,9 @@ import { submitRsvp } from "@/actions/guestActions";
 import SubmitRsvpButton from "@/components/SubmitRsvpButton";
 
 const inputClassName =
-  "block w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm text-gray-900 focus:border-black focus:ring-1 focus:ring-black focus:outline-none transition-all";
+  "block w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-sm text-slate-900 placeholder:text-slate-400 transition focus:border-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-500/10";
 
-const labelClassName = "mb-1.5 block text-sm font-medium text-gray-700";
+const labelClassName = "mb-1.5 block text-sm font-semibold text-slate-700";
 
 type InviteRsvpFormProps = {
   eventId: string;
@@ -28,7 +28,7 @@ export default function InviteRsvpForm({ eventId }: InviteRsvpFormProps) {
 
   return (
     <section aria-labelledby="rsvp-heading">
-      <h2 id="rsvp-heading" className="mb-4 text-lg font-bold text-gray-900">
+      <h2 id="rsvp-heading" className="mb-4 text-lg font-bold tracking-tight text-slate-900">
         RSVP
       </h2>
       <form action={handleSubmit} className="space-y-5">
@@ -51,7 +51,7 @@ export default function InviteRsvpForm({ eventId }: InviteRsvpFormProps) {
         <fieldset>
           <legend className={labelClassName}>Will you attend?</legend>
           <div className="flex flex-col gap-3 sm:flex-row">
-            <label className="flex min-h-12 flex-1 cursor-pointer items-center gap-3 rounded-xl border border-gray-300 px-4 py-3 text-sm font-medium text-gray-900">
+            <label className="flex min-h-12 flex-1 cursor-pointer items-center gap-3 rounded-xl border border-slate-200 px-4 py-3 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50">
               <input
                 type="radio"
                 name="status"
@@ -59,11 +59,11 @@ export default function InviteRsvpForm({ eventId }: InviteRsvpFormProps) {
                 checked={status === "ACCEPT"}
                 onChange={() => setStatus("ACCEPT")}
                 required
-                className="size-4 accent-black"
+                className="size-4 accent-blue-600"
               />
               Accept
             </label>
-            <label className="flex min-h-12 flex-1 cursor-pointer items-center gap-3 rounded-xl border border-gray-300 px-4 py-3 text-sm font-medium text-gray-900">
+            <label className="flex min-h-12 flex-1 cursor-pointer items-center gap-3 rounded-xl border border-slate-200 px-4 py-3 text-sm font-medium text-slate-700 transition-colors hover:bg-slate-50">
               <input
                 type="radio"
                 name="status"
@@ -71,7 +71,7 @@ export default function InviteRsvpForm({ eventId }: InviteRsvpFormProps) {
                 checked={status === "DECLINE"}
                 onChange={() => setStatus("DECLINE")}
                 required
-                className="size-4 accent-black"
+                className="size-4 accent-blue-600"
               />
               Decline
             </label>
@@ -79,7 +79,7 @@ export default function InviteRsvpForm({ eventId }: InviteRsvpFormProps) {
         </fieldset>
 
         {error && (
-          <p role="alert" className="text-sm font-medium text-red-700">
+          <p role="alert" className="rounded-xl bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
             {error}
           </p>
         )}

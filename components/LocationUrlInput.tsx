@@ -5,6 +5,7 @@ import { useRef, useState, type ChangeEvent, type FocusEvent } from "react";
 type LocationUrlInputProps = {
   className: string;
   labelClassName: string;
+  initialValue?: string;
 };
 
 function getLocationUrlError(value: string): string | null {
@@ -30,8 +31,9 @@ function getLocationUrlError(value: string): string | null {
 export default function LocationUrlInput({
   className,
   labelClassName,
+  initialValue = "",
 }: LocationUrlInputProps) {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(initialValue);
   const [touched, setTouched] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const error = value ? getLocationUrlError(value) : null;

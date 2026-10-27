@@ -7,11 +7,11 @@ export default function RouteLoading({ label }: RouteLoadingProps) {
     <div
       role="status"
       aria-live="polite"
-      className="flex min-h-[50vh] flex-col items-center justify-center gap-3 text-center"
+      className="flex min-h-[60vh] flex-col items-center justify-center gap-4 text-center"
     >
       <svg
         aria-hidden="true"
-        className="size-8 animate-spin text-gray-500"
+        className="size-8 animate-spin text-blue-600"
         viewBox="0 0 24 24"
         fill="none"
       >
@@ -29,7 +29,7 @@ export default function RouteLoading({ label }: RouteLoadingProps) {
           d="M4 12a8 8 0 0 1 8-8V0C5.373 0 0 5.373 0 12h4Zm2 5.291A7.962 7.962 0 0 1 4 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647Z"
         />
       </svg>
-      <p className="text-sm font-medium text-gray-600">{label}</p>
+      <p className="text-sm font-medium text-slate-500">{label}</p>
     </div>
   );
 }

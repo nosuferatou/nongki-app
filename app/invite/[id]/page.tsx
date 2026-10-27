@@ -1,4 +1,5 @@
 import PublicEventDetail from "@/components/PublicEventDetail";
+import AdminLayoutShell from "@/components/AdminLayoutShell";
 import { isAdminAuthenticated } from "@/lib/adminAuth";
 import { getPublicInviteEvent } from "@/lib/eventQueries";
 
@@ -21,7 +22,7 @@ export default async function InvitePage({
   const event = await getPublicInviteEvent(resolvedParams.id);
 
   if (!event) {
-    return (
+    const notFoundContent = (
       <main className="flex min-h-[85vh] items-center justify-center px-4 py-12">
         <section className="w-full max-w-xl rounded-3xl border border-gray-200/80 bg-white p-8 text-center shadow-sm sm:p-10">
           <h1 className="text-2xl font-bold tracking-tight text-gray-900">
@@ -33,9 +34,14 @@ export default async function InvitePage({
         </section>
       </main>
     );
+    return isAdmin ? (
+      <AdminLayoutShell>{notFoundContent}</AdminLayoutShell>
+    ) : (
+      notFoundContent
+    );
   }
 
-  return (
+  const content = (
     <PublicEventDetail
       event={event}
       isAdmin={isAdmin}
@@ -48,4 +54,5 @@ export default async function InvitePage({
       }
     />
   );
+  return isAdmin ? <AdminLayoutShell>{content}</AdminLayoutShell> : content;
 }

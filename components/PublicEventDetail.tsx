@@ -72,20 +72,20 @@ export default function PublicEventDetail({
   }/invite/${event.id}`;
 
   return (
-    <main className="mx-auto max-w-3xl space-y-8 px-6 py-12">
+    <main className="mx-auto max-w-4xl space-y-8 px-4 py-8 sm:px-8 sm:py-10">
       <Link
         href={isAdmin ? "/" : "/events"}
-        className="inline-flex items-center text-sm font-medium text-gray-500 transition-colors hover:text-black"
+        className="inline-flex items-center text-sm font-semibold text-slate-500 transition-colors hover:text-blue-700"
       >
         {isAdmin ? "← Back to Dashboard" : "← Back to Browse Events"}
       </Link>
 
       <header className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <span className="mb-3 block text-sm font-semibold uppercase tracking-widest text-gray-500">
+          <span className="mb-3 block text-sm font-semibold text-blue-700">
             Event details
           </span>
-          <h1 className="text-4xl font-extrabold tracking-tight text-black sm:text-5xl">
+          <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
             {event.title}
           </h1>
         </div>
@@ -96,29 +96,29 @@ export default function PublicEventDetail({
         <div className="flex gap-4">
           <CalendarDays
             aria-hidden="true"
-            className="mt-0.5 size-5 shrink-0 text-gray-500"
+            className="mt-0.5 size-5 shrink-0 text-slate-500"
             strokeWidth={1.75}
           />
           <div className="min-w-0">
-            <h2 className="text-sm font-medium text-gray-500">Date &amp; Time</h2>
+            <h2 className="text-sm font-semibold text-slate-500">Date &amp; Time</h2>
             {isSameDay ? (
               <div className="mt-2 flex items-start gap-2">
                 <Clock3
                   aria-hidden="true"
-                  className="mt-1 size-4 shrink-0 text-gray-500"
+                  className="mt-1 size-4 shrink-0 text-slate-500"
                   strokeWidth={1.75}
                 />
-                <p className="font-semibold leading-6 text-gray-900">
+                <p className="font-semibold leading-6 text-slate-900">
                   <time dateTime={event.eventDate.toISOString()}>
                     {dateOnlyFormatter.format(event.eventDate)}
                   </time>
-                  <span className="px-2 text-gray-400" aria-hidden="true">
+                  <span className="px-2 text-slate-400" aria-hidden="true">
                     ·
                   </span>
                   <time dateTime={event.eventDate.toISOString()}>
                     {timeFormatter.format(event.eventDate)}
                   </time>
-                  <span className="px-2 text-gray-400" aria-hidden="true">
+                  <span className="px-2 text-slate-400" aria-hidden="true">
                     –
                   </span>
                   <time dateTime={event.endDate.toISOString()}>
@@ -129,13 +129,13 @@ export default function PublicEventDetail({
             ) : (
               <dl className="mt-2 space-y-3">
                 <div className="flex items-start gap-3">
-                  <dt className="w-14 shrink-0 pt-0.5 text-sm text-gray-500">
+                  <dt className="w-14 shrink-0 pt-0.5 text-sm text-slate-500">
                     Starts
                   </dt>
-                  <dd className="flex items-start gap-2 font-semibold leading-6 text-gray-900">
+                  <dd className="flex items-start gap-2 font-semibold leading-6 text-slate-900">
                     <Clock3
                       aria-hidden="true"
-                      className="mt-1 size-4 shrink-0 text-gray-500"
+                      className="mt-1 size-4 shrink-0 text-slate-500"
                       strokeWidth={1.75}
                     />
                     <time dateTime={event.eventDate.toISOString()}>
@@ -144,13 +144,13 @@ export default function PublicEventDetail({
                   </dd>
                 </div>
                 <div className="flex items-start gap-3">
-                  <dt className="w-14 shrink-0 pt-0.5 text-sm text-gray-500">
+                  <dt className="w-14 shrink-0 pt-0.5 text-sm text-slate-500">
                     Ends
                   </dt>
-                  <dd className="flex items-start gap-2 font-semibold leading-6 text-gray-900">
+                  <dd className="flex items-start gap-2 font-semibold leading-6 text-slate-900">
                     <Clock3
                       aria-hidden="true"
-                      className="mt-1 size-4 shrink-0 text-gray-500"
+                      className="mt-1 size-4 shrink-0 text-slate-500"
                       strokeWidth={1.75}
                     />
                     <time dateTime={event.endDate.toISOString()}>
@@ -163,15 +163,15 @@ export default function PublicEventDetail({
           </div>
         </div>
 
-        <div className="flex gap-4 border-t border-gray-100 pt-6">
+        <div className="flex gap-4 border-t border-slate-200/70 pt-6">
           <MapPin
             aria-hidden="true"
-            className="mt-0.5 size-5 shrink-0 text-gray-500"
+            className="mt-0.5 size-5 shrink-0 text-slate-500"
             strokeWidth={1.75}
           />
           <div>
-            <h2 className="text-sm font-medium text-gray-500">Location</h2>
-            <p className="mt-1 font-semibold text-gray-900">
+            <h2 className="text-sm font-semibold text-slate-500">Location</h2>
+            <p className="mt-1 font-semibold text-slate-900">
               {event.locationName}
             </p>
             <a
@@ -187,18 +187,18 @@ export default function PublicEventDetail({
         </div>
 
         {event.description && (
-          <div className="border-t border-gray-100 pt-6">
-            <h2 className="text-sm font-medium text-gray-500">Description</h2>
-            <p className="mt-2 whitespace-pre-wrap text-base leading-7 text-gray-900">
+          <div className="border-t border-slate-200/70 pt-6">
+            <h2 className="text-sm font-semibold text-slate-500">Description</h2>
+            <p className="mt-2 whitespace-pre-wrap text-base leading-7 text-slate-800">
               {event.description}
             </p>
           </div>
         )}
 
         {event.notes && (
-          <div className="border-t border-gray-100 pt-6">
-            <h2 className="text-sm font-medium text-gray-500">Notes</h2>
-            <p className="mt-2 whitespace-pre-wrap text-base leading-7 text-gray-900">
+          <div className="border-t border-slate-200/70 pt-6">
+            <h2 className="text-sm font-semibold text-slate-500">Notes</h2>
+            <p className="mt-2 whitespace-pre-wrap text-base leading-7 text-slate-800">
               {event.notes}
             </p>
           </div>
@@ -208,11 +208,11 @@ export default function PublicEventDetail({
       {isAdmin && (
         <section
           aria-labelledby="share-link-heading"
-          className="border-t border-gray-100 pt-8"
+          className="border-t border-slate-200/70 pt-8"
         >
           <h2
             id="share-link-heading"
-            className="mb-3 text-sm font-medium text-gray-500"
+            className="mb-3 text-sm font-semibold text-slate-500"
           >
             Shareable Invite Link
           </h2>
@@ -222,27 +222,27 @@ export default function PublicEventDetail({
 
       <section
         aria-labelledby="attendance-heading"
-        className="border-t border-gray-100 pt-8"
+        className="border-t border-slate-200/70 pt-8"
       >
-        <h2 id="attendance-heading" className="mb-5 text-xl font-bold text-black">
+        <h2 id="attendance-heading" className="mb-5 text-xl font-bold tracking-tight text-slate-900">
           Attendance summary
         </h2>
         <dl className="grid grid-cols-3 gap-4">
           <div className="flex flex-col">
-            <dt className="order-2 mt-1 text-sm text-gray-500">Total guests</dt>
-            <dd className="order-1 text-2xl font-bold tracking-tight text-gray-900">
+            <dt className="order-2 mt-1 text-sm text-slate-500">Total guests</dt>
+            <dd className="order-1 text-2xl font-bold tracking-tight text-slate-900">
               {event.guests.length}
             </dd>
           </div>
           <div className="flex flex-col">
-            <dt className="order-2 mt-1 text-sm text-gray-500">Accepted</dt>
-            <dd className="order-1 text-2xl font-bold tracking-tight text-gray-900">
+            <dt className="order-2 mt-1 text-sm text-slate-500">Accepted</dt>
+            <dd className="order-1 text-2xl font-bold tracking-tight text-slate-900">
               {acceptedCount}
             </dd>
           </div>
           <div className="flex flex-col">
-            <dt className="order-2 mt-1 text-sm text-gray-500">Declined</dt>
-            <dd className="order-1 text-2xl font-bold tracking-tight text-gray-900">
+            <dt className="order-2 mt-1 text-sm text-slate-500">Declined</dt>
+            <dd className="order-1 text-2xl font-bold tracking-tight text-slate-900">
               {declinedCount}
             </dd>
           </div>
@@ -250,20 +250,20 @@ export default function PublicEventDetail({
       </section>
 
       {!isAdmin && (
-        <section className="border-t border-gray-100 pt-8">
+        <section className="border-t border-slate-200/70 pt-8">
           {submitted ? (
             <div
               aria-labelledby="rsvp-success-heading"
-              className="rounded-2xl bg-gray-50 px-6 py-8 text-center"
+              className="rounded-3xl bg-white px-6 py-8 text-center shadow-[0_2px_16px_rgba(15,23,42,0.04)]"
               role="status"
             >
               <h2
                 id="rsvp-success-heading"
-                className="text-lg font-bold tracking-wide text-gray-900"
+                className="text-lg font-bold tracking-tight text-slate-900"
               >
                 RSVP submitted
               </h2>
-              <p className="mt-3 text-sm leading-6 text-gray-600">
+              <p className="mt-3 text-sm leading-6 text-slate-500">
                 {submittedStatus === "DECLINE"
                   ? "Terima kasih atas konfirmasinya. Mungkin di lain waktu!"
                   : "Thank you for your response. Your attendance status has been recorded."}
@@ -273,7 +273,7 @@ export default function PublicEventDetail({
                   href={getGoogleCalendarUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-4 inline-flex items-center justify-center gap-2 rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-gray-500 focus:ring-offset-2"
+                  className="mt-4 inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-blue-500/10"
                 >
                   <svg
                     aria-hidden="true"
@@ -291,11 +291,11 @@ export default function PublicEventDetail({
               )}
             </div>
           ) : event.isClosed ? (
-            <div className="rounded-2xl bg-gray-50 px-6 py-8 text-center">
-              <h2 className="text-lg font-bold tracking-wide text-gray-900">
+            <div className="rounded-3xl bg-white px-6 py-8 text-center shadow-[0_2px_16px_rgba(15,23,42,0.04)]">
+              <h2 className="text-lg font-bold tracking-tight text-slate-900">
                 RSVP is closed
               </h2>
-              <p className="mt-3 text-sm leading-6 text-gray-600">
+              <p className="mt-3 text-sm leading-6 text-slate-500">
                 This event is no longer accepting responses.
               </p>
             </div>
@@ -307,22 +307,22 @@ export default function PublicEventDetail({
 
       <section
         aria-labelledby="guests-heading"
-        className="border-t border-gray-100 pt-8"
+        className="border-t border-slate-200/70 pt-8"
       >
-        <h2 id="guests-heading" className="mb-5 text-xl font-bold text-black">
+        <h2 id="guests-heading" className="mb-5 text-xl font-bold tracking-tight text-slate-900">
           Guest responses
         </h2>
         {event.guests.length > 0 ? (
-          <ul className="divide-y divide-gray-100">
+          <ul className="divide-y divide-slate-100">
             {event.guests.map((guest) => (
               <li
                 key={guest.id}
                 className="flex flex-col gap-2 py-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6"
               >
                 <div>
-                  <p className="font-semibold text-gray-900">{guest.name}</p>
+                  <p className="font-semibold text-slate-900">{guest.name}</p>
                   {guest.status === "DECLINE" && guest.reason && (
-                    <p className="mt-1 whitespace-pre-wrap text-sm text-gray-500">
+                    <p className="mt-1 whitespace-pre-wrap text-sm text-slate-500">
                       {guest.reason}
                     </p>
                   )}
@@ -330,8 +330,8 @@ export default function PublicEventDetail({
                 <span
                   className={`w-fit rounded-full px-3 py-1 text-xs font-semibold ${
                     guest.status === "ACCEPT"
-                      ? "bg-green-100 text-green-800"
-                      : "bg-gray-100 text-gray-700"
+                      ? "bg-emerald-50 text-emerald-700"
+                      : "bg-slate-100 text-slate-600"
                   }`}
                 >
                   {guest.status === "ACCEPT" ? "Accepted" : "Declined"}
@@ -340,7 +340,7 @@ export default function PublicEventDetail({
             ))}
           </ul>
         ) : (
-          <p className="text-sm text-gray-500">
+          <p className="text-sm text-slate-500">
             No guests have responded yet.
           </p>
         )}

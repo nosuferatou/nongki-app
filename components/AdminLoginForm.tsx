@@ -16,7 +16,7 @@ export default function AdminLoginForm() {
       <div>
         <label
           htmlFor="password"
-          className="mb-1.5 block text-sm font-medium text-gray-900"
+          className="mb-1.5 block text-sm font-semibold text-slate-700"
         >
           Admin password
         </label>
@@ -26,12 +26,12 @@ export default function AdminLoginForm() {
           type="password"
           autoComplete="current-password"
           required
-          className="block w-full rounded-xl border border-gray-300 bg-gray-50 px-4 py-3 text-base text-black transition-colors focus:border-black focus:bg-white focus:outline-none focus:ring-2 focus:ring-black"
+          className="block w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 placeholder:text-slate-400 transition focus:border-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-500/10"
         />
       </div>
 
       {state.error && (
-        <p role="alert" className="text-sm font-medium text-red-700">
+        <p role="alert" className="rounded-xl bg-red-50 px-4 py-3 text-sm font-medium text-red-700">
           {state.error}
         </p>
       )}
@@ -39,7 +39,7 @@ export default function AdminLoginForm() {
       <button
         type="submit"
         disabled={isPending}
-        className="min-h-12 w-full rounded-xl bg-black px-4 py-3 text-sm font-semibold text-white transition-colors hover:bg-gray-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black disabled:cursor-not-allowed disabled:opacity-60"
+        className="min-h-12 w-full rounded-xl bg-blue-600 px-4 py-3 text-sm font-semibold text-white transition duration-150 hover:bg-blue-700 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:cursor-not-allowed disabled:opacity-60"
       >
         {isPending ? "Signing in..." : "Sign in"}
       </button>

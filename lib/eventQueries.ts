@@ -16,7 +16,7 @@ export async function getPublicEvents() {
 
 export async function getUpcomingPublicEvents() {
   return prisma.event.findMany({
-    where: { eventDate: { gte: new Date() } },
+    where: { endDate: { gte: new Date() } },
     orderBy: { eventDate: "asc" },
     select: {
       id: true,
@@ -33,6 +33,23 @@ export async function getEventById(id: string) {
   return prisma.event.findUnique({
     where: { id },
     include: { guests: true },
+  });
+}
+
+export async function getEventForEdit(id: string) {
+  return prisma.event.findUnique({
+    where: { id },
+    select: {
+      id: true,
+      title: true,
+      eventDate: true,
+      endDate: true,
+      locationName: true,
+      locationUrl: true,
+      description: true,
+      maxGuests: true,
+      notes: true,
+    },
   });
 }
 

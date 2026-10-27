@@ -8,6 +8,8 @@ import { DayPicker, type DateRange } from "react-day-picker";
 type EventDateRangePickerProps = {
   inputClassName: string;
   labelClassName: string;
+  initialStartDate?: string;
+  initialEndDate?: string;
 };
 
 function combineDateAndTime(date: Date, time: string): Date {
@@ -28,11 +30,23 @@ function formatSelectionDate(date: Date, time: string): string {
 export default function EventDateRangePicker({
   inputClassName,
   labelClassName,
+  initialStartDate,
+  initialEndDate,
 }: EventDateRangePickerProps) {
+  const initialStart = initialStartDate ? new Date(initialStartDate) : undefined;
+  const initialEnd = initialEndDate ? new Date(initialEndDate) : undefined;
   const [isOpen, setIsOpen] = useState(false);
-  const [range, setRange] = useState<DateRange | undefined>();
-  const [startTime, setStartTime] = useState("10:00");
-  const [endTime, setEndTime] = useState("12:00");
+  const [range, setRange] = useState<DateRange | undefined>(
+    initialStart && initialEnd
+      ? { from: initialStart, to: initialEnd }
+      : undefined,
+  );
+  const [startTime, setStartTime] = useState(
+    initialStart ? format(initialStart, "HH:mm") : "10:00",
+  );
+  const [endTime, setEndTime] = useState(
+    initialEnd ? format(initialEnd, "HH:mm") : "12:00",
+  );
   const pickerRef = useRef<HTMLDivElement>(null);
 
   const startDateTime = range?.from
@@ -97,7 +111,7 @@ export default function EventDateRangePicker({
             <CalendarDays
               aria-hidden="true"
               size={18}
-              className="shrink-0 text-gray-500"
+              className="shrink-0 text-slate-500"
             />
             <span className="truncate">
               {triggerLabel}
@@ -121,7 +135,7 @@ export default function EventDateRangePicker({
           <div
             role="dialog"
             aria-label="Choose event dates and times"
-            className="absolute left-0 top-full z-50 mt-2 w-full min-w-[min(22rem,calc(100vw-2rem))] rounded-xl border border-gray-200 bg-white p-4 shadow-lg sm:w-auto"
+            className="absolute left-0 top-full z-50 mt-2 w-full min-w-[min(22rem,calc(100vw-2rem))] rounded-2xl bg-white p-4 shadow-[0_8px_32px_rgba(15,23,42,0.12)] sm:w-auto"
           >
             <DayPicker
               mode="range"
@@ -132,11 +146,11 @@ export default function EventDateRangePicker({
               className="nongki-date-range-calendar mx-auto"
             />
 
-            <div className="mt-4 grid grid-cols-2 gap-3 border-t border-gray-100 pt-4">
+            <div className="mt-4 grid grid-cols-2 gap-3 border-t border-slate-100 pt-4">
               <div>
                 <label
                   htmlFor="event-start-time"
-                  className="mb-1.5 block text-xs font-medium text-gray-700"
+                  className="mb-1.5 block text-xs font-semibold text-slate-700"
                 >
                   Start time
                 </label>
@@ -146,13 +160,13 @@ export default function EventDateRangePicker({
                   value={startTime}
                   required
                   onChange={(event) => setStartTime(event.target.value)}
-                  className="block h-10 w-full rounded-md border border-gray-300 bg-white px-3 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-100"
+                  className="block h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-900 focus:border-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-500/10"
                 />
               </div>
               <div>
                 <label
                   htmlFor="event-end-time"
-                  className="mb-1.5 block text-xs font-medium text-gray-700"
+                  className="mb-1.5 block text-xs font-semibold text-slate-700"
                 >
                   End time
                 </label>
@@ -162,7 +176,7 @@ export default function EventDateRangePicker({
                   value={endTime}
                   required
                   onChange={(event) => setEndTime(event.target.value)}
-                  className="block h-10 w-full rounded-md border border-gray-300 bg-white px-3 text-sm text-gray-900 focus:border-blue-600 focus:outline-none focus:ring-2 focus:ring-blue-100"
+                  className="block h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-900 focus:border-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-500/10"
                 />
               </div>
             </div>
@@ -177,7 +191,7 @@ export default function EventDateRangePicker({
               type="button"
               onClick={() => setIsOpen(false)}
               disabled={!isValidRange}
-              className="mt-4 w-full rounded-md bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition-colors hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-offset-2 disabled:cursor-not-allowed disabled:opacity-50"
+              className="mt-4 w-full rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition duration-150 hover:bg-blue-700 active:scale-[0.98] focus:outline-none focus:ring-4 focus:ring-blue-500/20 disabled:cursor-not-allowed disabled:opacity-50"
             >
               Done
             </button>
@@ -185,7 +199,7 @@ export default function EventDateRangePicker({
         )}
       </div>
 
-      <p className="text-xs text-gray-500">
+      <p className="text-xs text-slate-500">
         Select a start and end date, then set the event times.
       </p>
 

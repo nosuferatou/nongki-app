@@ -1,4 +1,5 @@
 import CreateEventForm from "@/components/CreateEventForm";
+import AdminLayoutShell from "@/components/AdminLayoutShell";
 import { isAdminAuthenticated } from "@/lib/adminAuth";
 import { redirect } from "next/navigation";
 
@@ -9,5 +10,9 @@ export default async function CreateEventPage() {
     redirect("/login");
   }
 
-  return <CreateEventForm />;
+  return (
+    <AdminLayoutShell>
+      <CreateEventForm />
+    </AdminLayoutShell>
+  );
 }

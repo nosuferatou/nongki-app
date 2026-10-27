@@ -38,9 +38,9 @@ async function submitEvent(
 }
 
 const fieldClassName =
-  "mt-2 block w-full border-2 border-black bg-white px-4 py-3 text-base text-black placeholder:text-neutral-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black";
+  "mt-2 block w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 placeholder:text-slate-400 transition focus:border-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-500/10";
 
-const labelClassName = "block text-sm font-bold uppercase tracking-wide";
+const labelClassName = "block text-sm font-semibold text-slate-700";
 
 export default function CreateEventForm() {
   const [state, formAction, pending] = useActionState(
@@ -49,25 +49,31 @@ export default function CreateEventForm() {
   );
 
   return (
-    <section className="mx-auto max-w-xl">
+    <section className="mx-auto max-w-3xl">
       <Link
         href="/"
-        className="mb-8 inline-flex items-center gap-2 text-sm font-bold uppercase tracking-wide underline decoration-2 underline-offset-4 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-black"
+        className="mb-7 inline-flex items-center gap-2 text-sm font-semibold text-slate-500 transition-colors hover:text-blue-700 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600"
       >
         <ArrowLeft aria-hidden="true" size={16} strokeWidth={2.5} />
         Back
       </Link>
 
-      <header className="mb-8 border-b-4 border-black pb-5">
-        <p className="mb-2 text-sm font-bold uppercase tracking-[0.2em]">
-          Nongki / Events
+      <header className="mb-7">
+        <p className="mb-2 text-sm font-semibold text-blue-700">
+          Workspace / Events
         </p>
-        <h1 className="text-4xl font-bold uppercase tracking-tight">
+        <h1 className="text-3xl font-bold tracking-tight text-slate-900">
           Create event
         </h1>
+        <p className="mt-2 text-sm text-slate-500">
+          Add the details for your next gathering.
+        </p>
       </header>
 
-      <form action={formAction} className="space-y-7">
+      <form
+        action={formAction}
+        className="space-y-6 rounded-3xl bg-white p-6 shadow-[0_2px_16px_rgba(15,23,42,0.04)] sm:p-8"
+      >
         <div>
           <label htmlFor="title" className={labelClassName}>
             Event title <span aria-hidden="true">*</span>
@@ -154,7 +160,7 @@ export default function CreateEventForm() {
         {state.error && (
           <p
             role="alert"
-            className="border-2 border-black bg-white px-4 py-3 font-semibold"
+            className="rounded-xl bg-red-50 px-4 py-3 font-medium text-red-700"
           >
             {state.error}
           </p>
@@ -163,7 +169,7 @@ export default function CreateEventForm() {
         {state.success && (
           <p
             role="status"
-            className="border-2 border-black bg-black px-4 py-3 font-semibold text-white"
+            className="rounded-xl bg-emerald-50 px-4 py-3 font-medium text-emerald-800"
           >
             Event created.
           </p>
@@ -172,7 +178,7 @@ export default function CreateEventForm() {
         <button
           type="submit"
           disabled={pending}
-          className="inline-flex min-h-14 w-full items-center justify-center border-2 border-black bg-black px-6 py-4 text-base font-bold uppercase tracking-wide text-white hover:bg-white hover:text-black focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black disabled:cursor-not-allowed disabled:border-neutral-400 disabled:bg-neutral-200 disabled:text-neutral-500 sm:w-auto"
+          className="inline-flex min-h-12 w-full items-center justify-center rounded-xl bg-blue-600 px-6 py-3 text-base font-semibold text-white transition duration-150 hover:bg-blue-700 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
         >
           {pending ? "Creating event..." : "Create event"}
         </button>
