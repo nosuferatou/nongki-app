@@ -28,10 +28,10 @@ export default async function EventsPage() {
           </p>
         </div>
         <Link
-          href="/"
+          href="/login"
           className="inline-flex min-h-10 items-center justify-center rounded-xl border border-gray-200 px-4 py-2 text-sm font-medium text-gray-700 transition-colors hover:bg-gray-50 hover:text-black"
         >
-          Home
+          Login
         </Link>
       </header>
 

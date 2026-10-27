@@ -35,10 +35,10 @@ export default function PublicEventDetail({
   return (
     <main className="mx-auto max-w-3xl space-y-8 px-6 py-12">
       <Link
-        href="/"
+        href={isAdmin ? "/" : "/events"}
         className="inline-flex items-center text-sm font-medium text-gray-500 transition-colors hover:text-black"
       >
-        {isAdmin ? "← Back to Dashboard" : "← Browse Events"}
+        {isAdmin ? "← Back to Dashboard" : "← Back to Browse Events"}
       </Link>
 
       <header className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">

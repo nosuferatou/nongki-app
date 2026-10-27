@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { submitRsvp } from "@/actions/guestActions";
+import SubmitRsvpButton from "@/components/SubmitRsvpButton";
 
 const inputClassName =
   "block w-full rounded-xl border border-gray-300 bg-white px-4 py-3 text-sm text-gray-900 focus:border-black focus:ring-1 focus:ring-black focus:outline-none transition-all";
@@ -98,12 +99,7 @@ export default function InviteRsvpForm({ eventId }: InviteRsvpFormProps) {
           </div>
         )}
 
-        <button
-          type="submit"
-          className="w-full rounded-xl bg-black px-4 py-3.5 text-sm font-semibold text-white shadow-sm transition-colors hover:bg-gray-800 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
-        >
-          Submit
-        </button>
+        <SubmitRsvpButton />
       </form>
     </section>
   );
