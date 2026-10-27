@@ -5,6 +5,7 @@ import { ArrowLeft } from "lucide-react";
 import { useActionState } from "react";
 import { createEvent } from "@/actions/eventActions";
 import LocationUrlInput from "@/components/LocationUrlInput";
+import EventDateRangePicker from "@/components/EventDateRangePicker";
 
 type EventActionState = Awaited<ReturnType<typeof createEvent>>;
 
@@ -14,6 +15,25 @@ async function submitEvent(
   _previousState: EventActionState,
   formData: FormData,
 ): Promise<EventActionState> {
+  const startValue = formData.get("eventDate");
+  const endValue = formData.get("endDate");
+  if (typeof startValue !== "string" || typeof endValue !== "string") {
+    return { success: false, error: "Please provide start and end dates." };
+  }
+
+  const start = new Date(startValue);
+  const end = new Date(endValue);
+  if (
+    Number.isNaN(start.getTime()) ||
+    Number.isNaN(end.getTime()) ||
+    end < start
+  ) {
+    return {
+      success: false,
+      error: "End date and time must be after the start.",
+    };
+  }
+
   return createEvent(formData);
 }
 
@@ -63,18 +83,10 @@ export default function CreateEventForm() {
           />
         </div>
 
-        <div>
-          <label htmlFor="eventDate" className={labelClassName}>
-            Date and time <span aria-hidden="true">*</span>
-          </label>
-          <input
-            id="eventDate"
-            name="eventDate"
-            type="datetime-local"
-            required
-            className={fieldClassName}
-          />
-        </div>
+        <EventDateRangePicker
+          inputClassName={fieldClassName}
+          labelClassName={labelClassName}
+        />
 
         <div className="grid gap-7 sm:grid-cols-2">
           <div>

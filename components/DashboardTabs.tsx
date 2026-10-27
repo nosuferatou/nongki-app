@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { createEvent } from "@/actions/eventActions";
 import LocationUrlInput from "@/components/LocationUrlInput";
+import EventDateRangePicker from "@/components/EventDateRangePicker";
 
 type DashboardEvent = {
   id: string;
@@ -38,6 +39,30 @@ export default function DashboardTabs({ events }: DashboardTabsProps) {
 
   async function handleCreateEvent(formData: FormData): Promise<void> {
     setCreationResult(null);
+    const startValue = formData.get("eventDate");
+    const endValue = formData.get("endDate");
+    if (typeof startValue !== "string" || typeof endValue !== "string") {
+      setCreationResult({
+        success: false,
+        message: "Please provide start and end dates.",
+      });
+      return;
+    }
+
+    const start = new Date(startValue);
+    const end = new Date(endValue);
+    if (
+      Number.isNaN(start.getTime()) ||
+      Number.isNaN(end.getTime()) ||
+      end < start
+    ) {
+      setCreationResult({
+        success: false,
+        message: "End date and time must be after the start.",
+      });
+      return;
+    }
+
     const result = await createEvent(formData);
 
     if (result.success) {
@@ -185,18 +210,10 @@ export default function DashboardTabs({ events }: DashboardTabsProps) {
               />
             </div>
 
-            <div>
-              <label htmlFor="eventDate" className={labelClassName}>
-                Date and time
-              </label>
-              <input
-                id="eventDate"
-                name="eventDate"
-                type="datetime-local"
-                required
-                className={inputClassName}
-              />
-            </div>
+            <EventDateRangePicker
+              inputClassName={inputClassName}
+              labelClassName={labelClassName}
+            />
 
             <div>
               <label htmlFor="locationName" className={labelClassName}>

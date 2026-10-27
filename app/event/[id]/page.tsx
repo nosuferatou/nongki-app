@@ -6,7 +6,7 @@ export const instant = false;
 
 type Props = {
   params: Promise<{ id: string }>;
-  searchParams: Promise<{ submitted?: string }>;
+  searchParams: Promise<{ submitted?: string; status?: string }>;
 };
 
 export default async function EventDetailPage({
@@ -33,6 +33,12 @@ export default async function EventDetailPage({
       event={event}
       isAdmin={isAdmin}
       submitted={resolvedSearchParams.submitted === "1"}
+      submittedStatus={
+        resolvedSearchParams.status === "ACCEPT" ||
+        resolvedSearchParams.status === "DECLINE"
+          ? resolvedSearchParams.status
+          : null
+      }
     />
   );
 }

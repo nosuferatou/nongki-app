@@ -72,5 +72,5 @@ export async function submitRsvp(
 
   revalidatePath(`/invite/${eventId}`);
   revalidatePath(`/event/${eventId}`);
-  redirect(`/event/${eventId}?submitted=1`);
+  redirect(`/event/${eventId}?submitted=1&status=${statusValue}`);
 }

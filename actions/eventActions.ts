@@ -18,13 +18,14 @@ export async function createEvent(
 
   const title = readRequiredString("title");
   const eventDateValue = readRequiredString("eventDate");
+  const endDateValue = readRequiredString("endDate");
   const locationName = readRequiredString("locationName");
   const locationUrl = readRequiredString("locationUrl");
   const maxGuestsValue = readRequiredString("maxGuests");
   const descriptionValue = formData.get("description");
   const notesValue = formData.get("notes");
 
-  if (!title || !eventDateValue || !locationName || !locationUrl) {
+  if (!title || !eventDateValue || !endDateValue || !locationName || !locationUrl) {
     return { success: false, error: "Please complete all required fields." };
   }
 
@@ -49,8 +50,12 @@ export async function createEvent(
   }
 
   const eventDate = new Date(eventDateValue);
-  if (Number.isNaN(eventDate.getTime())) {
-    return { success: false, error: "Please provide a valid event date." };
+  const endDate = new Date(endDateValue);
+  if (Number.isNaN(eventDate.getTime()) || Number.isNaN(endDate.getTime())) {
+    return { success: false, error: "Please provide valid start and end dates." };
+  }
+  if (endDate < eventDate) {
+    return { success: false, error: "End date and time must be after the start." };
   }
 
   if (!/^\d+$/.test(maxGuestsValue)) {
@@ -74,6 +79,7 @@ export async function createEvent(
       data: {
         title,
         eventDate,
+        endDate,
         locationName,
         locationUrl,
         description:
@@ -108,6 +114,7 @@ export async function getRecentEvents() {
       id: true,
       title: true,
       eventDate: true,
+      endDate: true,
       locationName: true,
     },
   });
