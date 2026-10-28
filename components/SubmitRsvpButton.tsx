@@ -2,14 +2,26 @@
 
 import { useFormStatus } from "react-dom";
 
-export default function SubmitRsvpButton() {
+type SubmitRsvpButtonProps = {
+  label: string;
+  waitlist?: boolean;
+};
+
+export default function SubmitRsvpButton({
+  label,
+  waitlist = false,
+}: SubmitRsvpButtonProps) {
   const { pending } = useFormStatus();
 
   return (
     <button
       type="submit"
       disabled={pending}
-      className="inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl bg-primary-light px-4 py-3.5 text-sm font-semibold text-primary-dark transition duration-150 hover:bg-secondary-light active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-dark disabled:cursor-not-allowed disabled:opacity-70"
+      className={`inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl px-4 py-3.5 text-sm font-semibold transition duration-150 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-dark disabled:cursor-not-allowed disabled:opacity-70 ${
+        waitlist
+          ? "bg-primary-dark text-primary-light hover:bg-secondary-dark"
+          : "bg-primary-light text-primary-dark hover:bg-secondary-light"
+      }`}
     >
       {pending && (
         <svg
@@ -34,7 +46,7 @@ export default function SubmitRsvpButton() {
         </svg>
       )}
       <span aria-live="polite">
-        {pending ? "Submitting..." : "Submit"}
+        {pending ? "Submitting..." : label}
       </span>
     </button>
   );

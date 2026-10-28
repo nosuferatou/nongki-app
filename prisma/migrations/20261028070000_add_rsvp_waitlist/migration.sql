@@ -1,0 +1,43 @@
+CREATE TABLE IF NOT EXISTS "Event" (
+  "id" TEXT NOT NULL,
+  "title" TEXT NOT NULL,
+  "eventDate" TIMESTAMP(3) NOT NULL,
+  "endDate" TIMESTAMP(3) NOT NULL,
+  "locationName" TEXT NOT NULL,
+  "locationUrl" TEXT NOT NULL,
+  "description" TEXT,
+  "maxGuests" INTEGER NOT NULL,
+  "notes" TEXT,
+  "isClosed" BOOLEAN NOT NULL DEFAULT false,
+  "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT "Event_pkey" PRIMARY KEY ("id")
+);
+
+CREATE TABLE IF NOT EXISTS "Guest" (
+  "id" TEXT NOT NULL,
+  "eventId" TEXT NOT NULL,
+  "name" TEXT NOT NULL,
+  "status" TEXT NOT NULL,
+  "reason" TEXT,
+  "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT "Guest_pkey" PRIMARY KEY ("id"),
+  CONSTRAINT "Guest_eventId_fkey" FOREIGN KEY ("eventId")
+    REFERENCES "Event"("id") ON DELETE RESTRICT ON UPDATE CASCADE
+);
+
+CREATE TYPE "RSVPStatus" AS ENUM ('ATTENDING', 'DECLINED', 'WAITLISTED');
+
+ALTER TABLE "Guest"
+  ALTER COLUMN "status" DROP DEFAULT,
+  ALTER COLUMN "status" TYPE "RSVPStatus"
+  USING (
+    CASE UPPER("status")
+      WHEN 'ACCEPT' THEN 'ATTENDING'::"RSVPStatus"
+      WHEN 'ATTENDING' THEN 'ATTENDING'::"RSVPStatus"
+      WHEN 'DECLINE' THEN 'DECLINED'::"RSVPStatus"
+      WHEN 'DECLINED' THEN 'DECLINED'::"RSVPStatus"
+      WHEN 'WAITLISTED' THEN 'WAITLISTED'::"RSVPStatus"
+      ELSE UPPER("status")::"RSVPStatus"
+    END
+  ),
+  ALTER COLUMN "status" SET DEFAULT 'ATTENDING';

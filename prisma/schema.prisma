@@ -3,9 +3,15 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider  = "postgresql"
+  url       = env("DATABASE_URL")
   directUrl = env("DIRECT_URL")
+}
+
+enum RSVPStatus {
+  ATTENDING
+  DECLINED
+  WAITLISTED
 }
 
 model Event {
@@ -24,11 +30,11 @@ model Event {
 }
 
 model Guest {
-  id        String   @id @default(uuid())
+  id        String     @id @default(uuid())
   eventId   String
   name      String
-  status    String   // "ACCEPT" atau "DECLINE"
-  reason    String?  // Alasan kalau decline (opsional)
-  createdAt DateTime @default(now())
-  event     Event    @relation(fields: [eventId], references: [id])
+  status    RSVPStatus @default(ATTENDING)
+  reason    String?
+  createdAt DateTime   @default(now())
+  event     Event      @relation(fields: [eventId], references: [id])
 }

@@ -11,10 +11,14 @@ const labelClassName = "mb-1.5 block text-sm font-semibold text-secondary-dark";
 
 type InviteRsvpFormProps = {
   eventId: string;
+  isFull: boolean;
 };
 
-export default function InviteRsvpForm({ eventId }: InviteRsvpFormProps) {
-  const [status, setStatus] = useState<"ACCEPT" | "DECLINE">("ACCEPT");
+export default function InviteRsvpForm({
+  eventId,
+  isFull,
+}: InviteRsvpFormProps) {
+  const [status, setStatus] = useState<"ATTENDING" | "DECLINED">("ATTENDING");
   const [error, setError] = useState<string | null>(null);
 
   async function handleSubmit(formData: FormData): Promise<void> {
@@ -55,25 +59,25 @@ export default function InviteRsvpForm({ eventId }: InviteRsvpFormProps) {
               <input
                 type="radio"
                 name="status"
-                value="ACCEPT"
-                checked={status === "ACCEPT"}
-                onChange={() => setStatus("ACCEPT")}
+                value="ATTENDING"
+                checked={status === "ATTENDING"}
+                onChange={() => setStatus("ATTENDING")}
                 required
                 className="size-4 accent-[var(--color-primary-dark)]"
               />
-              Accept
+              Attending
             </label>
             <label className="flex min-h-11 flex-1 cursor-pointer items-center gap-3 rounded-xl border border-secondary-dark/20 px-4 py-3 text-sm font-medium text-secondary-dark transition-colors hover:bg-secondary-light/40">
               <input
                 type="radio"
                 name="status"
-                value="DECLINE"
-                checked={status === "DECLINE"}
-                onChange={() => setStatus("DECLINE")}
+                value="DECLINED"
+                checked={status === "DECLINED"}
+                onChange={() => setStatus("DECLINED")}
                 required
                 className="size-4 accent-[var(--color-primary-dark)]"
               />
-              Decline
+              Declined
             </label>
           </div>
         </fieldset>
@@ -84,7 +88,7 @@ export default function InviteRsvpForm({ eventId }: InviteRsvpFormProps) {
           </p>
         )}
 
-        {status === "DECLINE" && (
+        {status === "DECLINED" && (
           <div>
             <label htmlFor="reason" className={labelClassName}>
               Message
@@ -99,7 +103,16 @@ export default function InviteRsvpForm({ eventId }: InviteRsvpFormProps) {
           </div>
         )}
 
-        <SubmitRsvpButton />
+        <SubmitRsvpButton
+          label={isFull && status === "ATTENDING" ? "Join Waitlist" : "RSVP"}
+          waitlist={isFull && status === "ATTENDING"}
+        />
+        {isFull && status === "ATTENDING" && (
+          <p className="text-xs leading-5 text-secondary-dark">
+            This event is currently full. You will automatically get a spot if
+            someone cancels.
+          </p>
+        )}
       </form>
     </section>
   );

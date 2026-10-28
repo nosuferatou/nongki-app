@@ -1,6 +1,7 @@
 import Link from "next/link";
 import CopyInviteLink from "@/components/CopyInviteLink";
 import DeleteEventButton from "@/components/DeleteEventButton";
+import AdminGuestActions from "@/components/AdminGuestActions";
 import InviteRsvpForm from "@/components/InviteRsvpForm";
 import type { getPublicInviteEvent } from "@/lib/eventQueries";
 import { CalendarDays, Clock3, ExternalLink, MapPin } from "lucide-react";
@@ -11,7 +12,7 @@ type PublicEventDetailProps = {
   event: EventData;
   isAdmin: boolean;
   submitted: boolean;
-  submittedStatus: "ACCEPT" | "DECLINE" | null;
+  submittedStatus: "ATTENDING" | "DECLINED" | "WAITLISTED" | null;
 };
 
 const dateFormatter = new Intl.DateTimeFormat("en", {
@@ -59,11 +60,15 @@ export default function PublicEventDetail({
   }
 
   const acceptedCount = event.guests.filter(
-    (guest) => guest.status === "ACCEPT",
+    (guest) => guest.status === "ATTENDING",
   ).length;
   const declinedCount = event.guests.filter(
-    (guest) => guest.status === "DECLINE",
+    (guest) => guest.status === "DECLINED",
   ).length;
+  const waitlistedCount = event.guests.filter(
+    (guest) => guest.status === "WAITLISTED",
+  ).length;
+  const remainingQuota = Math.max(event.maxGuests - acceptedCount, 0);
   const isSameDay =
     dateOnlyFormatter.format(event.eventDate) ===
     dateOnlyFormatter.format(event.endDate);
@@ -227,7 +232,7 @@ export default function PublicEventDetail({
         <h2 id="attendance-heading" className="mb-5 text-xl font-bold tracking-tight text-primary-dark">
           Attendance summary
         </h2>
-        <dl className="grid grid-cols-3 gap-4">
+        <dl className="grid grid-cols-2 gap-4 sm:grid-cols-5">
           <div className="flex flex-col">
             <dt className="order-2 mt-1 text-sm text-secondary-dark">Total guests</dt>
             <dd className="order-1 text-2xl font-bold tracking-tight text-primary-dark">
@@ -235,9 +240,21 @@ export default function PublicEventDetail({
             </dd>
           </div>
           <div className="flex flex-col">
-            <dt className="order-2 mt-1 text-sm text-secondary-dark">Accepted</dt>
+            <dt className="order-2 mt-1 text-sm text-secondary-dark">Attending</dt>
             <dd className="order-1 text-2xl font-bold tracking-tight text-primary-dark">
               {acceptedCount}
+            </dd>
+          </div>
+          <div className="flex flex-col">
+            <dt className="order-2 mt-1 text-sm text-secondary-dark">Spots left</dt>
+            <dd className="order-1 text-2xl font-bold tracking-tight text-primary-dark">
+              {remainingQuota}
+            </dd>
+          </div>
+          <div className="flex flex-col">
+            <dt className="order-2 mt-1 text-sm text-secondary-dark">Waitlisted</dt>
+            <dd className="order-1 text-2xl font-bold tracking-tight text-primary-dark">
+              {waitlistedCount}
             </dd>
           </div>
           <div className="flex flex-col">
@@ -264,11 +281,13 @@ export default function PublicEventDetail({
                 RSVP submitted
               </h2>
               <p className="mt-3 text-sm leading-6 text-secondary-dark">
-                {submittedStatus === "DECLINE"
+                {submittedStatus === "DECLINED"
                   ? "Terima kasih atas konfirmasinya. Mungkin di lain waktu!"
-                  : "Thank you for your response. Your attendance status has been recorded."}
+                  : submittedStatus === "WAITLISTED"
+                    ? "This event is full. You have been added to the waitlist and will get a spot if one opens."
+                    : "Thank you for your response. Your attendance status has been recorded."}
               </p>
-              {submittedStatus === "ACCEPT" && (
+              {submittedStatus === "ATTENDING" && (
                 <a
                   href={getGoogleCalendarUrl()}
                   target="_blank"
@@ -300,7 +319,10 @@ export default function PublicEventDetail({
               </p>
             </div>
           ) : (
-            <InviteRsvpForm eventId={event.id} />
+            <InviteRsvpForm
+              eventId={event.id}
+              isFull={remainingQuota <= 0}
+            />
           )}
         </section>
       )}
@@ -319,23 +341,37 @@ export default function PublicEventDetail({
                 key={guest.id}
                 className="flex flex-col gap-2 py-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6"
               >
-                <div>
+                <div className="flex-1">
                   <p className="font-semibold text-primary-dark">{guest.name}</p>
-                  {guest.status === "DECLINE" && guest.reason && (
+                  {guest.status === "DECLINED" && guest.reason && (
                     <p className="mt-1 whitespace-pre-wrap text-sm text-secondary-dark">
                       {guest.reason}
                     </p>
                   )}
                 </div>
-                <span
-                  className={`w-fit rounded-full px-3 py-1 text-xs font-semibold ${
-                    guest.status === "ACCEPT"
-                      ? "bg-secondary-light text-primary-dark"
-                      : "bg-secondary-light/40 text-secondary-dark"
-                  }`}
-                >
-                  {guest.status === "ACCEPT" ? "Accepted" : "Declined"}
-                </span>
+                <div className="flex flex-wrap items-center gap-2">
+                  <span
+                    className={`w-fit rounded-full px-3 py-1 text-xs font-semibold ${
+                      guest.status === "ATTENDING"
+                        ? "bg-secondary-light text-primary-dark"
+                        : guest.status === "WAITLISTED"
+                          ? "bg-secondary-dark text-white"
+                          : "bg-secondary-light/40 text-secondary-dark"
+                    }`}
+                  >
+                    {guest.status === "ATTENDING"
+                      ? "Attending"
+                      : guest.status === "WAITLISTED"
+                        ? "Waitlisted"
+                        : "Declined"}
+                  </span>
+                  {isAdmin && (
+                    <AdminGuestActions
+                      guestId={guest.id}
+                      status={guest.status}
+                    />
+                  )}
+                </div>
               </li>
             ))}
           </ul>

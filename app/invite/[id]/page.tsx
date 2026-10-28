@@ -47,8 +47,9 @@ export default async function InvitePage({
       isAdmin={isAdmin}
       submitted={resolvedSearchParams.submitted === "1"}
       submittedStatus={
-        resolvedSearchParams.status === "ACCEPT" ||
-        resolvedSearchParams.status === "DECLINE"
+        resolvedSearchParams.status === "ATTENDING" ||
+        resolvedSearchParams.status === "DECLINED" ||
+        resolvedSearchParams.status === "WAITLISTED"
           ? resolvedSearchParams.status
           : null
       }

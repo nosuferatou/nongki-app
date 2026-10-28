@@ -70,6 +70,7 @@ export async function getPublicInviteEvent(id: string) {
       description: true,
       notes: true,
       isClosed: true,
+      maxGuests: true,
       guests: {
         orderBy: { createdAt: "desc" },
         select: {
