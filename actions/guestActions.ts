@@ -97,15 +97,15 @@ export async function adminUpdateGuestStatus(
   guestId: string,
   nextStatus: "ATTENDING" | "DECLINED",
 ): Promise<{ success: boolean; error?: string }> {
-  if (!(await isAdminAuthenticated())) {
-    return { success: false, error: "You must be signed in as an admin." };
-  }
-
-  if (!guestId || (nextStatus !== "ATTENDING" && nextStatus !== "DECLINED")) {
-    return { success: false, error: "Invalid guest status." };
-  }
-
   try {
+    if (!(await isAdminAuthenticated())) {
+      return { success: false, error: "You must be signed in as an admin." };
+    }
+
+    if (!guestId || (nextStatus !== "ATTENDING" && nextStatus !== "DECLINED")) {
+      return { success: false, error: "Invalid guest status." };
+    }
+
     const eventId = await prisma.$transaction(async (transaction) => {
       const guest = await transaction.guest.findUnique({
         where: { id: guestId },
@@ -155,7 +155,7 @@ export async function adminUpdateGuestStatus(
 
     revalidatePath(`/event/${eventId}`);
     revalidatePath(`/invite/${eventId}`);
-    revalidatePath(`/`);
+    revalidatePath("/");
     return { success: true };
   } catch (error) {
     if (error instanceof Error && error.message === "EVENT_FULL") {
@@ -175,13 +175,13 @@ export async function adminUpdateGuestStatus(
 export async function adminRemoveGuest(
   guestId: string,
 ): Promise<{ success: boolean; error?: string }> {
-  if (!(await isAdminAuthenticated())) {
-    return { success: false, error: "You must be signed in as an admin." };
-  }
-
-  if (!guestId) return { success: false, error: "Invalid guest." };
-
   try {
+    if (!(await isAdminAuthenticated())) {
+      return { success: false, error: "You must be signed in as an admin." };
+    }
+
+    if (!guestId) return { success: false, error: "Invalid guest." };
+
     const eventId = await prisma.$transaction(async (transaction) => {
       const guest = await transaction.guest.findUnique({
         where: { id: guestId },

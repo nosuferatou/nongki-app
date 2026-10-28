@@ -11,6 +11,9 @@ const poppins = Poppins({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(
+    process.env.NEXT_PUBLIC_APP_URL || "https://nongki-app.vercel.app",
+  ),
   title: "Nongki",
   description: "Plan your next gathering with Nongki.",
 };

@@ -31,7 +31,7 @@ export async function promoteNextWaitlistedGuest(
     orderBy: [{ createdAt: "asc" }, { id: "asc" }],
     select: { id: true },
   });
-  if (!nextGuest) return null;
+  if (nextGuest === null) return null;
 
   const promotion = await transaction.guest.updateMany({
     where: { id: nextGuest.id, status: "WAITLISTED" },
