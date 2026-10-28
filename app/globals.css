@@ -1,18 +1,26 @@
 @import "tailwindcss";
 
+@theme {
+  --color-primary-dark: #202734;
+  --color-secondary-dark: #36415a;
+  --color-primary-light: #b7d894;
+  --color-secondary-light: #e0f8c7;
+  --font-sans: var(--font-poppins), sans-serif;
+}
+
 * {
   box-sizing: border-box;
 }
 
 html {
-  background: #f8fafc;
+  background: #f7f9f4;
 }
 
 body {
   margin: 0;
-  background: #f8fafc;
-  color: #0f172a;
-  font-family: Futura, sans-serif;
+  background: #f7f9f4;
+  color: #202734;
+  font-family: var(--font-poppins), sans-serif;
 }
 
 button,
@@ -28,19 +36,19 @@ a {
 }
 
 ::selection {
-  background: #dbeafe;
-  color: #1e3a8a;
+  background: #e0f8c7;
+  color: #202734;
 }
 
 .nongki-date-range-calendar {
-  --rdp-accent-color: #2563eb;
-  --rdp-accent-background-color: #eff6ff;
-  --rdp-range_middle-background-color: #eff6ff;
-  --rdp-range_middle-color: #1e3a8a;
-  --rdp-range_start-background: #2563eb;
-  --rdp-range_start-color: #ffffff;
-  --rdp-range_end-background: #2563eb;
-  --rdp-range_end-color: #ffffff;
+  --rdp-accent-color: #b7d894;
+  --rdp-accent-background-color: #e0f8c7;
+  --rdp-range_middle-background-color: #e0f8c7;
+  --rdp-range_middle-color: #202734;
+  --rdp-range_start-background: #b7d894;
+  --rdp-range_start-color: #202734;
+  --rdp-range_end-background: #b7d894;
+  --rdp-range_end-color: #202734;
   --rdp-day_button-border-radius: 0.375rem;
   --rdp-day_button-width: 2.25rem;
   --rdp-day_button-height: 2.25rem;

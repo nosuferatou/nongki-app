@@ -37,20 +37,20 @@ export default function CopyInviteLink({ inviteUrl }: CopyInviteLinkProps) {
       <div className="flex flex-col gap-3 sm:flex-row">
         <input
           aria-label="Shareable invite link"
-          className="min-w-0 flex-1 rounded-xl bg-gray-100 p-4 font-mono text-sm text-gray-900"
+          className="min-h-11 min-w-0 flex-1 rounded-xl bg-secondary-light/30 p-4 font-mono text-sm text-primary-dark"
           readOnly
           value={inviteUrl}
         />
         <button
           type="button"
           onClick={handleCopy}
-          className="rounded-xl border border-gray-200 px-5 py-3 text-sm font-semibold text-gray-900 transition-colors hover:bg-gray-50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-black"
+          className="min-h-11 rounded-xl border border-secondary-dark/20 px-5 py-3 text-sm font-semibold text-secondary-dark transition-colors hover:bg-secondary-light/40 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-dark active:scale-[0.98]"
         >
           {copied ? "Copied!" : "Copy"}
         </button>
       </div>
       {copyError && (
-        <p role="alert" className="mt-2 text-sm text-gray-700">
+        <p role="alert" className="mt-2 text-sm text-secondary-dark">
           {copyError}
         </p>
       )}

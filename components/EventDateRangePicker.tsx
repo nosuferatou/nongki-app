@@ -91,12 +91,12 @@ export default function EventDateRangePicker({
       ? `${formatSelectionDate(range.from, startTime)} – ${formatSelectionDate(range.to, endTime)}`
       : range?.from
         ? `${formatSelectionDate(range.from, startTime)} – Select end date`
-        : "Select event dates and times";
+        : "Select date & time";
 
   return (
     <div className="space-y-1.5">
       <label htmlFor="event-timeframe" className={labelClassName}>
-        Event timeframe <span aria-hidden="true">*</span>
+        Date &amp; Time <span aria-hidden="true">*</span>
       </label>
       <div ref={pickerRef} className="relative">
         <button
@@ -111,7 +111,7 @@ export default function EventDateRangePicker({
             <CalendarDays
               aria-hidden="true"
               size={18}
-              className="shrink-0 text-slate-500"
+              className="shrink-0 text-secondary-dark"
             />
             <span className="truncate">
               {triggerLabel}
@@ -125,7 +125,7 @@ export default function EventDateRangePicker({
           <ChevronDown
             aria-hidden="true"
             size={18}
-            className={`shrink-0 text-gray-500 transition-transform ${
+            className={`shrink-0 text-secondary-dark transition-transform ${
               isOpen ? "rotate-180" : ""
             }`}
           />
@@ -146,11 +146,11 @@ export default function EventDateRangePicker({
               className="nongki-date-range-calendar mx-auto"
             />
 
-            <div className="mt-4 grid grid-cols-2 gap-3 border-t border-slate-100 pt-4">
+            <div className="mt-4 grid grid-cols-2 gap-3 border-t border-secondary-dark/10 pt-4">
               <div>
                 <label
                   htmlFor="event-start-time"
-                  className="mb-1.5 block text-xs font-semibold text-slate-700"
+                  className="mb-1.5 block text-xs font-semibold text-secondary-dark"
                 >
                   Start time
                 </label>
@@ -160,13 +160,13 @@ export default function EventDateRangePicker({
                   value={startTime}
                   required
                   onChange={(event) => setStartTime(event.target.value)}
-                  className="block h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-900 focus:border-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-500/10"
+                  className="block h-11 w-full rounded-lg border border-secondary-dark/20 bg-white px-3 text-sm text-primary-dark focus:border-primary-light focus:outline-none focus:ring-4 focus:ring-primary-light/40"
                 />
               </div>
               <div>
                 <label
                   htmlFor="event-end-time"
-                  className="mb-1.5 block text-xs font-semibold text-slate-700"
+                  className="mb-1.5 block text-xs font-semibold text-secondary-dark"
                 >
                   End time
                 </label>
@@ -176,7 +176,7 @@ export default function EventDateRangePicker({
                   value={endTime}
                   required
                   onChange={(event) => setEndTime(event.target.value)}
-                  className="block h-10 w-full rounded-lg border border-slate-200 bg-white px-3 text-sm text-slate-900 focus:border-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-500/10"
+                  className="block h-11 w-full rounded-lg border border-secondary-dark/20 bg-white px-3 text-sm text-primary-dark focus:border-primary-light focus:outline-none focus:ring-4 focus:ring-primary-light/40"
                 />
               </div>
             </div>
@@ -191,17 +191,13 @@ export default function EventDateRangePicker({
               type="button"
               onClick={() => setIsOpen(false)}
               disabled={!isValidRange}
-              className="mt-4 w-full rounded-xl bg-blue-600 px-4 py-2.5 text-sm font-semibold text-white transition duration-150 hover:bg-blue-700 active:scale-[0.98] focus:outline-none focus:ring-4 focus:ring-blue-500/20 disabled:cursor-not-allowed disabled:opacity-50"
+              className="mt-4 min-h-11 w-full rounded-xl bg-primary-light px-4 py-2.5 text-sm font-semibold text-primary-dark transition duration-150 hover:bg-secondary-light active:scale-[0.98] focus:outline-none focus:ring-4 focus:ring-primary-light/40 disabled:cursor-not-allowed disabled:opacity-50"
             >
               Done
             </button>
           </div>
         )}
       </div>
-
-      <p className="text-xs text-slate-500">
-        Select a start and end date, then set the event times.
-      </p>
 
       <input
         type="hidden"

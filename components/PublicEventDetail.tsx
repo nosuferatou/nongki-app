@@ -75,17 +75,17 @@ export default function PublicEventDetail({
     <main className="mx-auto max-w-4xl space-y-8 px-4 py-8 sm:px-8 sm:py-10">
       <Link
         href={isAdmin ? "/" : "/events"}
-        className="inline-flex items-center text-sm font-semibold text-slate-500 transition-colors hover:text-blue-700"
+        className="inline-flex min-h-11 items-center gap-2 rounded-full bg-secondary-light/30 px-4 py-2 text-sm font-medium text-secondary-dark transition-all duration-200 hover:bg-secondary-light/70 active:scale-[0.98]"
       >
         {isAdmin ? "← Back to Dashboard" : "← Back to Browse Events"}
       </Link>
 
       <header className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <span className="mb-3 block text-sm font-semibold text-blue-700">
+          <span className="mb-3 block text-sm font-semibold text-secondary-dark">
             Event details
           </span>
-          <h1 className="text-4xl font-bold tracking-tight text-slate-900 sm:text-5xl">
+          <h1 className="text-4xl font-bold tracking-tight text-primary-dark sm:text-5xl">
             {event.title}
           </h1>
         </div>
@@ -96,29 +96,29 @@ export default function PublicEventDetail({
         <div className="flex gap-4">
           <CalendarDays
             aria-hidden="true"
-            className="mt-0.5 size-5 shrink-0 text-slate-500"
+            className="mt-0.5 size-5 shrink-0 text-secondary-dark"
             strokeWidth={1.75}
           />
           <div className="min-w-0">
-            <h2 className="text-sm font-semibold text-slate-500">Date &amp; Time</h2>
+            <h2 className="text-sm font-semibold text-secondary-dark">Date &amp; Time</h2>
             {isSameDay ? (
               <div className="mt-2 flex items-start gap-2">
                 <Clock3
                   aria-hidden="true"
-                  className="mt-1 size-4 shrink-0 text-slate-500"
+                  className="mt-1 size-4 shrink-0 text-secondary-dark"
                   strokeWidth={1.75}
                 />
-                <p className="font-semibold leading-6 text-slate-900">
+                <p className="font-semibold leading-6 text-primary-dark">
                   <time dateTime={event.eventDate.toISOString()}>
                     {dateOnlyFormatter.format(event.eventDate)}
                   </time>
-                  <span className="px-2 text-slate-400" aria-hidden="true">
+                  <span className="px-2 text-secondary-dark/60" aria-hidden="true">
                     ·
                   </span>
                   <time dateTime={event.eventDate.toISOString()}>
                     {timeFormatter.format(event.eventDate)}
                   </time>
-                  <span className="px-2 text-slate-400" aria-hidden="true">
+                  <span className="px-2 text-secondary-dark/60" aria-hidden="true">
                     –
                   </span>
                   <time dateTime={event.endDate.toISOString()}>
@@ -129,13 +129,13 @@ export default function PublicEventDetail({
             ) : (
               <dl className="mt-2 space-y-3">
                 <div className="flex items-start gap-3">
-                  <dt className="w-14 shrink-0 pt-0.5 text-sm text-slate-500">
+                  <dt className="w-14 shrink-0 pt-0.5 text-sm text-secondary-dark">
                     Starts
                   </dt>
-                  <dd className="flex items-start gap-2 font-semibold leading-6 text-slate-900">
+                  <dd className="flex items-start gap-2 font-semibold leading-6 text-primary-dark">
                     <Clock3
                       aria-hidden="true"
-                      className="mt-1 size-4 shrink-0 text-slate-500"
+                      className="mt-1 size-4 shrink-0 text-secondary-dark"
                       strokeWidth={1.75}
                     />
                     <time dateTime={event.eventDate.toISOString()}>
@@ -144,13 +144,13 @@ export default function PublicEventDetail({
                   </dd>
                 </div>
                 <div className="flex items-start gap-3">
-                  <dt className="w-14 shrink-0 pt-0.5 text-sm text-slate-500">
+                  <dt className="w-14 shrink-0 pt-0.5 text-sm text-secondary-dark">
                     Ends
                   </dt>
-                  <dd className="flex items-start gap-2 font-semibold leading-6 text-slate-900">
+                  <dd className="flex items-start gap-2 font-semibold leading-6 text-primary-dark">
                     <Clock3
                       aria-hidden="true"
-                      className="mt-1 size-4 shrink-0 text-slate-500"
+                      className="mt-1 size-4 shrink-0 text-secondary-dark"
                       strokeWidth={1.75}
                     />
                     <time dateTime={event.endDate.toISOString()}>
@@ -163,22 +163,22 @@ export default function PublicEventDetail({
           </div>
         </div>
 
-        <div className="flex gap-4 border-t border-slate-200/70 pt-6">
+        <div className="flex gap-4 border-t border-secondary-dark/15 pt-6">
           <MapPin
             aria-hidden="true"
-            className="mt-0.5 size-5 shrink-0 text-slate-500"
+            className="mt-0.5 size-5 shrink-0 text-secondary-dark"
             strokeWidth={1.75}
           />
           <div>
-            <h2 className="text-sm font-semibold text-slate-500">Location</h2>
-            <p className="mt-1 font-semibold text-slate-900">
+            <h2 className="text-sm font-semibold text-secondary-dark">Location</h2>
+            <p className="mt-1 font-semibold text-primary-dark">
               {event.locationName}
             </p>
             <a
               href={event.locationUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="mt-2 inline-flex items-center gap-1.5 text-sm font-medium text-blue-600 hover:underline"
+              className="mt-2 inline-flex min-h-11 items-center gap-1.5 text-sm font-medium text-secondary-dark underline-offset-4 hover:text-primary-dark hover:underline"
             >
               Open location
               <ExternalLink aria-hidden="true" className="size-3.5" />
@@ -187,18 +187,18 @@ export default function PublicEventDetail({
         </div>
 
         {event.description && (
-          <div className="border-t border-slate-200/70 pt-6">
-            <h2 className="text-sm font-semibold text-slate-500">Description</h2>
-            <p className="mt-2 whitespace-pre-wrap text-base leading-7 text-slate-800">
+          <div className="border-t border-secondary-dark/15 pt-6">
+            <h2 className="text-sm font-semibold text-secondary-dark">Description</h2>
+            <p className="mt-2 whitespace-pre-wrap text-base leading-7 text-primary-dark">
               {event.description}
             </p>
           </div>
         )}
 
         {event.notes && (
-          <div className="border-t border-slate-200/70 pt-6">
-            <h2 className="text-sm font-semibold text-slate-500">Notes</h2>
-            <p className="mt-2 whitespace-pre-wrap text-base leading-7 text-slate-800">
+          <div className="border-t border-secondary-dark/15 pt-6">
+            <h2 className="text-sm font-semibold text-secondary-dark">Notes</h2>
+            <p className="mt-2 whitespace-pre-wrap text-base leading-7 text-primary-dark">
               {event.notes}
             </p>
           </div>
@@ -208,11 +208,11 @@ export default function PublicEventDetail({
       {isAdmin && (
         <section
           aria-labelledby="share-link-heading"
-          className="border-t border-slate-200/70 pt-8"
+          className="border-t border-secondary-dark/15 pt-8"
         >
           <h2
             id="share-link-heading"
-            className="mb-3 text-sm font-semibold text-slate-500"
+            className="mb-3 text-sm font-semibold text-secondary-dark"
           >
             Shareable Invite Link
           </h2>
@@ -222,27 +222,27 @@ export default function PublicEventDetail({
 
       <section
         aria-labelledby="attendance-heading"
-        className="border-t border-slate-200/70 pt-8"
+        className="border-t border-secondary-dark/15 pt-8"
       >
-        <h2 id="attendance-heading" className="mb-5 text-xl font-bold tracking-tight text-slate-900">
+        <h2 id="attendance-heading" className="mb-5 text-xl font-bold tracking-tight text-primary-dark">
           Attendance summary
         </h2>
         <dl className="grid grid-cols-3 gap-4">
           <div className="flex flex-col">
-            <dt className="order-2 mt-1 text-sm text-slate-500">Total guests</dt>
-            <dd className="order-1 text-2xl font-bold tracking-tight text-slate-900">
+            <dt className="order-2 mt-1 text-sm text-secondary-dark">Total guests</dt>
+            <dd className="order-1 text-2xl font-bold tracking-tight text-primary-dark">
               {event.guests.length}
             </dd>
           </div>
           <div className="flex flex-col">
-            <dt className="order-2 mt-1 text-sm text-slate-500">Accepted</dt>
-            <dd className="order-1 text-2xl font-bold tracking-tight text-slate-900">
+            <dt className="order-2 mt-1 text-sm text-secondary-dark">Accepted</dt>
+            <dd className="order-1 text-2xl font-bold tracking-tight text-primary-dark">
               {acceptedCount}
             </dd>
           </div>
           <div className="flex flex-col">
-            <dt className="order-2 mt-1 text-sm text-slate-500">Declined</dt>
-            <dd className="order-1 text-2xl font-bold tracking-tight text-slate-900">
+            <dt className="order-2 mt-1 text-sm text-secondary-dark">Declined</dt>
+            <dd className="order-1 text-2xl font-bold tracking-tight text-primary-dark">
               {declinedCount}
             </dd>
           </div>
@@ -250,20 +250,20 @@ export default function PublicEventDetail({
       </section>
 
       {!isAdmin && (
-        <section className="border-t border-slate-200/70 pt-8">
+        <section className="border-t border-secondary-dark/15 pt-8">
           {submitted ? (
             <div
               aria-labelledby="rsvp-success-heading"
-              className="rounded-3xl bg-white px-6 py-8 text-center shadow-[0_2px_16px_rgba(15,23,42,0.04)]"
+              className="rounded-3xl bg-white px-4 py-8 text-center shadow-[0_2px_16px_rgba(32,39,52,0.05)] sm:px-6"
               role="status"
             >
               <h2
                 id="rsvp-success-heading"
-                className="text-lg font-bold tracking-tight text-slate-900"
+                className="text-lg font-bold tracking-tight text-primary-dark"
               >
                 RSVP submitted
               </h2>
-              <p className="mt-3 text-sm leading-6 text-slate-500">
+              <p className="mt-3 text-sm leading-6 text-secondary-dark">
                 {submittedStatus === "DECLINE"
                   ? "Terima kasih atas konfirmasinya. Mungkin di lain waktu!"
                   : "Thank you for your response. Your attendance status has been recorded."}
@@ -273,7 +273,7 @@ export default function PublicEventDetail({
                   href={getGoogleCalendarUrl()}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="mt-4 inline-flex items-center justify-center gap-2 rounded-xl border border-slate-200 bg-white px-4 py-2.5 text-sm font-semibold text-slate-700 transition-colors hover:bg-slate-50 focus:outline-none focus:ring-4 focus:ring-blue-500/10"
+                  className="mt-4 inline-flex min-h-11 items-center justify-center gap-2 rounded-xl border border-secondary-dark/20 bg-white px-4 py-2.5 text-sm font-semibold text-secondary-dark transition-colors hover:bg-secondary-light/40 focus:outline-none focus:ring-4 focus:ring-primary-light/40"
                 >
                   <svg
                     aria-hidden="true"
@@ -291,11 +291,11 @@ export default function PublicEventDetail({
               )}
             </div>
           ) : event.isClosed ? (
-            <div className="rounded-3xl bg-white px-6 py-8 text-center shadow-[0_2px_16px_rgba(15,23,42,0.04)]">
-              <h2 className="text-lg font-bold tracking-tight text-slate-900">
+            <div className="rounded-3xl bg-white px-4 py-8 text-center shadow-[0_2px_16px_rgba(32,39,52,0.05)] sm:px-6">
+              <h2 className="text-lg font-bold tracking-tight text-primary-dark">
                 RSVP is closed
               </h2>
-              <p className="mt-3 text-sm leading-6 text-slate-500">
+              <p className="mt-3 text-sm leading-6 text-secondary-dark">
                 This event is no longer accepting responses.
               </p>
             </div>
@@ -307,22 +307,22 @@ export default function PublicEventDetail({
 
       <section
         aria-labelledby="guests-heading"
-        className="border-t border-slate-200/70 pt-8"
+        className="border-t border-secondary-dark/15 pt-8"
       >
-        <h2 id="guests-heading" className="mb-5 text-xl font-bold tracking-tight text-slate-900">
+        <h2 id="guests-heading" className="mb-5 text-xl font-bold tracking-tight text-primary-dark">
           Guest responses
         </h2>
         {event.guests.length > 0 ? (
-          <ul className="divide-y divide-slate-100">
+          <ul className="divide-y divide-secondary-dark/10">
             {event.guests.map((guest) => (
               <li
                 key={guest.id}
                 className="flex flex-col gap-2 py-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6"
               >
                 <div>
-                  <p className="font-semibold text-slate-900">{guest.name}</p>
+                  <p className="font-semibold text-primary-dark">{guest.name}</p>
                   {guest.status === "DECLINE" && guest.reason && (
-                    <p className="mt-1 whitespace-pre-wrap text-sm text-slate-500">
+                    <p className="mt-1 whitespace-pre-wrap text-sm text-secondary-dark">
                       {guest.reason}
                     </p>
                   )}
@@ -330,8 +330,8 @@ export default function PublicEventDetail({
                 <span
                   className={`w-fit rounded-full px-3 py-1 text-xs font-semibold ${
                     guest.status === "ACCEPT"
-                      ? "bg-emerald-50 text-emerald-700"
-                      : "bg-slate-100 text-slate-600"
+                      ? "bg-secondary-light text-primary-dark"
+                      : "bg-secondary-light/40 text-secondary-dark"
                   }`}
                 >
                   {guest.status === "ACCEPT" ? "Accepted" : "Declined"}
@@ -340,7 +340,7 @@ export default function PublicEventDetail({
             ))}
           </ul>
         ) : (
-          <p className="text-sm text-slate-500">
+          <p className="text-sm text-secondary-dark">
             No guests have responded yet.
           </p>
         )}

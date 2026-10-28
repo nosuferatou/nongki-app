@@ -38,9 +38,9 @@ async function submitEvent(
 }
 
 const fieldClassName =
-  "mt-2 block w-full rounded-xl border border-slate-200 bg-white px-4 py-3 text-base text-slate-900 placeholder:text-slate-400 transition focus:border-blue-600 focus:outline-none focus:ring-4 focus:ring-blue-500/10";
+  "mt-2 block min-h-11 w-full rounded-xl border border-secondary-dark/20 bg-white px-4 py-3 text-base text-primary-dark placeholder:text-secondary-dark/60 transition focus:border-primary-light focus:outline-none focus:ring-4 focus:ring-primary-light/40";
 
-const labelClassName = "block text-sm font-semibold text-slate-700";
+const labelClassName = "block text-sm font-semibold text-secondary-dark";
 
 export default function CreateEventForm() {
   const [state, formAction, pending] = useActionState(
@@ -49,30 +49,27 @@ export default function CreateEventForm() {
   );
 
   return (
-    <section className="mx-auto max-w-3xl">
+    <section className="mx-auto max-w-3xl px-4 pt-8 pb-10 sm:px-8 sm:pt-10">
       <Link
         href="/"
-        className="mb-7 inline-flex items-center gap-2 text-sm font-semibold text-slate-500 transition-colors hover:text-blue-700 focus-visible:outline-2 focus-visible:outline-offset-4 focus-visible:outline-blue-600"
+        className="mb-7 inline-flex min-h-11 items-center gap-2 rounded-full bg-secondary-light/30 px-4 py-2 text-sm font-medium text-secondary-dark transition-all duration-200 hover:bg-secondary-light/70 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-dark"
       >
         <ArrowLeft aria-hidden="true" size={16} strokeWidth={2.5} />
         Back
       </Link>
 
       <header className="mb-7">
-        <p className="mb-2 text-sm font-semibold text-blue-700">
+        <p className="mb-2 text-sm font-semibold text-secondary-dark">
           Workspace / Events
         </p>
-        <h1 className="text-3xl font-bold tracking-tight text-slate-900">
+        <h1 className="text-3xl font-bold tracking-tight text-primary-dark">
           Create event
         </h1>
-        <p className="mt-2 text-sm text-slate-500">
-          Add the details for your next gathering.
-        </p>
       </header>
 
       <form
         action={formAction}
-        className="space-y-6 rounded-3xl bg-white p-6 shadow-[0_2px_16px_rgba(15,23,42,0.04)] sm:p-8"
+        className="space-y-6 rounded-3xl bg-white p-4 shadow-[0_2px_16px_rgba(32,39,52,0.05)] sm:p-8"
       >
         <div>
           <label htmlFor="title" className={labelClassName}>
@@ -152,7 +149,7 @@ export default function CreateEventForm() {
             id="notes"
             name="notes"
             rows={3}
-            placeholder="Private notes for the host"
+            placeholder="Host Notes"
             className={fieldClassName}
           />
         </div>
@@ -169,7 +166,7 @@ export default function CreateEventForm() {
         {state.success && (
           <p
             role="status"
-            className="rounded-xl bg-emerald-50 px-4 py-3 font-medium text-emerald-800"
+            className="rounded-xl bg-secondary-light/70 px-4 py-3 font-medium text-primary-dark"
           >
             Event created.
           </p>
@@ -178,9 +175,9 @@ export default function CreateEventForm() {
         <button
           type="submit"
           disabled={pending}
-          className="inline-flex min-h-12 w-full items-center justify-center rounded-xl bg-blue-600 px-6 py-3 text-base font-semibold text-white transition duration-150 hover:bg-blue-700 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-600 disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
+          className="inline-flex min-h-11 w-full items-center justify-center rounded-xl bg-primary-light px-6 py-3 text-base font-semibold text-primary-dark transition duration-150 hover:bg-secondary-light active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-dark disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto"
         >
-          {pending ? "Creating event..." : "Create event"}
+          {pending ? "Creating..." : "Create"}
         </button>
       </form>
     </section>

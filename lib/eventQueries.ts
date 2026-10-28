@@ -15,8 +15,12 @@ export async function getPublicEvents() {
 }
 
 export async function getUpcomingPublicEvents() {
+  const now = new Date();
+
   return prisma.event.findMany({
-    where: { endDate: { gte: new Date() } },
+    where: {
+      endDate: { gte: now },
+    },
     orderBy: { eventDate: "asc" },
     select: {
       id: true,

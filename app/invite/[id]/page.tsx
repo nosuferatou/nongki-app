@@ -24,11 +24,11 @@ export default async function InvitePage({
   if (!event) {
     const notFoundContent = (
       <main className="flex min-h-[85vh] items-center justify-center px-4 py-12">
-        <section className="w-full max-w-xl rounded-3xl border border-gray-200/80 bg-white p-8 text-center shadow-sm sm:p-10">
-          <h1 className="text-2xl font-bold tracking-tight text-gray-900">
+        <section className="w-full max-w-xl rounded-3xl bg-white p-5 text-center shadow-[0_2px_24px_rgba(32,39,52,0.07)] sm:p-10">
+          <h1 className="text-2xl font-bold tracking-tight text-primary-dark">
             Invitation not found
           </h1>
-          <p className="mt-3 text-sm text-gray-500">
+          <p className="mt-3 text-sm text-secondary-dark">
             This invitation may have expired or the link may be incorrect.
           </p>
         </section>
