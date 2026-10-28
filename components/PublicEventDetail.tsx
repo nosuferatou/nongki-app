@@ -2,6 +2,7 @@ import Link from "next/link";
 import CopyInviteLink from "@/components/CopyInviteLink";
 import DeleteEventButton from "@/components/DeleteEventButton";
 import AdminGuestActions from "@/components/AdminGuestActions";
+import EventMap from "@/components/EventMap";
 import InviteRsvpForm from "@/components/InviteRsvpForm";
 import type { getPublicInviteEvent } from "@/lib/eventQueries";
 import { CalendarDays, Clock3, ExternalLink, MapPin } from "lucide-react";
@@ -53,7 +54,7 @@ export default function PublicEventDetail({
     calendarUrl.searchParams.set("details", event.description ?? "");
     calendarUrl.searchParams.set(
       "location",
-      `${event.locationName} (${event.locationUrl})`,
+      event.locationName,
     );
 
     return calendarUrl.toString();
@@ -179,17 +180,37 @@ export default function PublicEventDetail({
             <p className="mt-1 font-semibold text-primary-dark">
               {event.locationName}
             </p>
-            <a
-              href={event.locationUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="mt-2 inline-flex min-h-11 items-center gap-1.5 text-sm font-medium text-secondary-dark underline-offset-4 hover:text-primary-dark hover:underline"
-            >
-              Open location
-              <ExternalLink aria-hidden="true" className="size-3.5" />
-            </a>
+            {!isAdmin &&
+              event.latitude !== null &&
+              event.longitude !== null &&
+              Number.isFinite(event.latitude) &&
+              Number.isFinite(event.longitude) && (
+                <a
+                  href={`https://www.google.com/maps?q=${event.latitude},${event.longitude}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-2 inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-secondary-dark/20 bg-white px-4 py-2 text-sm font-semibold text-primary-dark transition-colors hover:bg-secondary-light/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-dark"
+                >
+                  Open in Google Maps
+                  <ExternalLink aria-hidden="true" className="size-3.5" />
+                </a>
+              )}
           </div>
         </div>
+
+        {event.latitude !== null &&
+          event.longitude !== null &&
+          Number.isFinite(event.latitude) &&
+          Number.isFinite(event.longitude) && (
+            <div className="overflow-hidden rounded-xl border border-secondary-dark/20">
+              <EventMap
+                latitude={event.latitude}
+                longitude={event.longitude}
+                isInteractive={false}
+                className="h-48 w-full"
+              />
+            </div>
+          )}
 
         {event.description && (
           <div className="border-t border-secondary-dark/15 pt-6">

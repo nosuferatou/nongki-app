@@ -4,6 +4,46 @@ import { prisma } from "@/lib/prisma";
 import { revalidatePath } from "next/cache";
 import { isAdminAuthenticated } from "@/lib/adminAuth";
 
+function readCoordinates(
+  formData: FormData,
+):
+  | { success: true; latitude: number | null; longitude: number | null }
+  | { success: false } {
+  const latitudeValue = formData.get("latitude");
+  const longitudeValue = formData.get("longitude");
+
+  if (
+    (latitudeValue !== null && typeof latitudeValue !== "string") ||
+    (longitudeValue !== null && typeof longitudeValue !== "string")
+  ) {
+    return { success: false };
+  }
+
+  const latitudeText = typeof latitudeValue === "string" ? latitudeValue.trim() : "";
+  const longitudeText =
+    typeof longitudeValue === "string" ? longitudeValue.trim() : "";
+
+  if (!latitudeText && !longitudeText) {
+    return { success: true, latitude: null, longitude: null };
+  }
+  if (!latitudeText || !longitudeText) return { success: false };
+
+  const latitude = Number(latitudeText);
+  const longitude = Number(longitudeText);
+  if (
+    !Number.isFinite(latitude) ||
+    !Number.isFinite(longitude) ||
+    latitude < -90 ||
+    latitude > 90 ||
+    longitude < -180 ||
+    longitude > 180
+  ) {
+    return { success: false };
+  }
+
+  return { success: true, latitude, longitude };
+}
+
 export async function createEvent(
   formData: FormData,
 ): Promise<{ success: boolean; eventId?: string; error?: string }> {
@@ -20,33 +60,16 @@ export async function createEvent(
   const eventDateValue = readRequiredString("eventDate");
   const endDateValue = readRequiredString("endDate");
   const locationName = readRequiredString("locationName");
-  const locationUrl = readRequiredString("locationUrl");
+  const coordinates = readCoordinates(formData);
   const maxGuestsValue = readRequiredString("maxGuests");
   const descriptionValue = formData.get("description");
   const notesValue = formData.get("notes");
 
-  if (!title || !eventDateValue || !endDateValue || !locationName || !locationUrl) {
+  if (!title || !eventDateValue || !endDateValue || !locationName) {
     return { success: false, error: "Please complete all required fields." };
   }
-
-  try {
-    const parsedLocationUrl = new URL(locationUrl);
-    if (
-      !/^https?:\/\//i.test(locationUrl) ||
-      (parsedLocationUrl.protocol !== "http:" &&
-        parsedLocationUrl.protocol !== "https:") ||
-      !parsedLocationUrl.hostname
-    ) {
-      return {
-        success: false,
-        error: "Location URL must be a valid http:// or https:// web address.",
-      };
-    }
-  } catch {
-    return {
-      success: false,
-      error: "Location URL must be a valid http:// or https:// web address.",
-    };
+  if (!coordinates.success) {
+    return { success: false, error: "Please select a valid location on the map." };
   }
 
   const eventDate = new Date(eventDateValue);
@@ -81,7 +104,8 @@ export async function createEvent(
         eventDate,
         endDate,
         locationName,
-        locationUrl,
+        latitude: coordinates.latitude,
+        longitude: coordinates.longitude,
         description:
           typeof descriptionValue === "string"
             ? descriptionValue.trim() || null
@@ -95,6 +119,7 @@ export async function createEvent(
 
     revalidatePath("/");
     revalidatePath("/events");
+    revalidatePath(`/invite/${event.id}`);
     return { success: true, eventId: event.id };
   } catch (error) {
     console.error("Failed to create event.", error);
@@ -122,7 +147,7 @@ export async function updateEvent(
   const eventDateValue = readRequiredString("eventDate");
   const endDateValue = readRequiredString("endDate");
   const locationName = readRequiredString("locationName");
-  const locationUrl = readRequiredString("locationUrl");
+  const coordinates = readCoordinates(formData);
   const maxGuestsValue = readRequiredString("maxGuests");
   const descriptionValue = formData.get("description");
   const notesValue = formData.get("notes");
@@ -132,30 +157,12 @@ export async function updateEvent(
     !title ||
     !eventDateValue ||
     !endDateValue ||
-    !locationName ||
-    !locationUrl
+    !locationName
   ) {
     return { success: false, error: "Please complete all required fields." };
   }
-
-  try {
-    const parsedLocationUrl = new URL(locationUrl);
-    if (
-      !/^https?:\/\//i.test(locationUrl) ||
-      (parsedLocationUrl.protocol !== "http:" &&
-        parsedLocationUrl.protocol !== "https:") ||
-      !parsedLocationUrl.hostname
-    ) {
-      return {
-        success: false,
-        error: "Location URL must be a valid http:// or https:// web address.",
-      };
-    }
-  } catch {
-    return {
-      success: false,
-      error: "Location URL must be a valid http:// or https:// web address.",
-    };
+  if (!coordinates.success) {
+    return { success: false, error: "Please select a valid location on the map." };
   }
 
   const eventDate = new Date(eventDateValue);
@@ -189,7 +196,8 @@ export async function updateEvent(
         eventDate,
         endDate,
         locationName,
-        locationUrl,
+        latitude: coordinates.latitude,
+        longitude: coordinates.longitude,
         description:
           typeof descriptionValue === "string"
             ? descriptionValue.trim() || null
@@ -203,6 +211,7 @@ export async function updateEvent(
     revalidatePath("/");
     revalidatePath("/events");
     revalidatePath(`/event/${id}`);
+    revalidatePath(`/invite/${id}`);
     return { success: true };
   } catch (error) {
     console.error("Failed to update event.", error);

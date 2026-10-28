@@ -20,7 +20,8 @@ model Event {
   eventDate    DateTime
   endDate      DateTime
   locationName String
-  locationUrl  String
+  latitude     Float?
+  longitude    Float?
   description  String?
   maxGuests    Int
   notes        String?

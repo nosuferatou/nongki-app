@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { createEvent } from "@/actions/eventActions";
-import LocationUrlInput from "@/components/LocationUrlInput";
+import EventMap from "@/components/EventMap";
 import EventDateRangePicker from "@/components/EventDateRangePicker";
 
 type EventActionState = Awaited<ReturnType<typeof createEvent>>;
@@ -43,6 +43,8 @@ const fieldClassName =
 const labelClassName = "block text-sm font-semibold text-secondary-dark";
 
 export default function CreateEventForm() {
+  const [latitude, setLatitude] = useState<number | null>(null);
+  const [longitude, setLongitude] = useState<number | null>(null);
   const [state, formAction, pending] = useActionState(
     submitEvent,
     initialState,
@@ -91,25 +93,44 @@ export default function CreateEventForm() {
           labelClassName={labelClassName}
         />
 
-        <div className="grid gap-7 sm:grid-cols-2">
-          <div>
-            <label htmlFor="locationName" className={labelClassName}>
-              Location <span aria-hidden="true">*</span>
-            </label>
-            <input
-              id="locationName"
-              name="locationName"
-              type="text"
-              placeholder="Venue or address"
-              required
-              className={fieldClassName}
-            />
-          </div>
-
-          <LocationUrlInput
+        <div>
+          <label htmlFor="locationName" className={labelClassName}>
+            Location <span aria-hidden="true">*</span>
+          </label>
+          <input
+            id="locationName"
+            name="locationName"
+            type="text"
+            placeholder="Venue or address"
+            required
             className={fieldClassName}
-            labelClassName={labelClassName}
           />
+        </div>
+
+        <div>
+          <EventMap
+            latitude={latitude}
+            longitude={longitude}
+            isInteractive
+            onChange={(nextLatitude, nextLongitude) => {
+              setLatitude(nextLatitude);
+              setLongitude(nextLongitude);
+            }}
+            className="w-full"
+          />
+          <input
+            type="hidden"
+            name="latitude"
+            value={latitude === null ? "" : String(latitude)}
+          />
+          <input
+            type="hidden"
+            name="longitude"
+            value={longitude === null ? "" : String(longitude)}
+          />
+          <p className="mt-2 text-xs text-slate-500">
+            Click on the map to pin the exact location.
+          </p>
         </div>
 
         <div>

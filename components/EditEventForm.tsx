@@ -1,10 +1,10 @@
 "use client";
 
 import Link from "next/link";
-import { useActionState } from "react";
+import { useActionState, useState } from "react";
 import { updateEvent } from "@/actions/eventActions";
+import EventMap from "@/components/EventMap";
 import EventDateRangePicker from "@/components/EventDateRangePicker";
-import LocationUrlInput from "@/components/LocationUrlInput";
 
 type EditableEvent = {
   id: string;
@@ -12,7 +12,8 @@ type EditableEvent = {
   eventDate: string;
   endDate: string;
   locationName: string;
-  locationUrl: string;
+  latitude: number | null;
+  longitude: number | null;
   description: string | null;
   maxGuests: number;
   notes: string | null;
@@ -36,6 +37,8 @@ async function submitUpdate(
 }
 
 export default function EditEventForm({ event }: { event: EditableEvent }) {
+  const [latitude, setLatitude] = useState<number | null>(event.latitude);
+  const [longitude, setLongitude] = useState<number | null>(event.longitude);
   const [state, formAction, pending] = useActionState(
     submitUpdate,
     initialState,
@@ -98,11 +101,31 @@ export default function EditEventForm({ event }: { event: EditableEvent }) {
           />
         </div>
 
-        <LocationUrlInput
-          className={inputClassName}
-          labelClassName={labelClassName}
-          initialValue={event.locationUrl}
-        />
+        <div>
+          <EventMap
+            latitude={latitude}
+            longitude={longitude}
+            isInteractive
+            onChange={(nextLatitude, nextLongitude) => {
+              setLatitude(nextLatitude);
+              setLongitude(nextLongitude);
+            }}
+            className="w-full"
+          />
+          <input
+            type="hidden"
+            name="latitude"
+            value={latitude === null ? "" : String(latitude)}
+          />
+          <input
+            type="hidden"
+            name="longitude"
+            value={longitude === null ? "" : String(longitude)}
+          />
+          <p className="mt-2 text-xs text-slate-500">
+            Click on the map to pin the exact location.
+          </p>
+        </div>
 
         <div>
           <label htmlFor="maxGuests" className={labelClassName}>

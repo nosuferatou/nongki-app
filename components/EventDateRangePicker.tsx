@@ -98,7 +98,10 @@ export default function EventDateRangePicker({
       <label htmlFor="event-timeframe" className={labelClassName}>
         Date &amp; Time <span aria-hidden="true">*</span>
       </label>
-      <div ref={pickerRef} className="relative">
+      <div
+        ref={pickerRef}
+        className={`relative ${isOpen ? "z-50" : "z-0"}`}
+      >
         <button
           id="event-timeframe"
           type="button"

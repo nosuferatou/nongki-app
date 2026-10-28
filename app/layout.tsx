@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Poppins } from "next/font/google";
+import "leaflet/dist/leaflet.css";
 import "react-day-picker/style.css";
 import "./globals.css";
 
