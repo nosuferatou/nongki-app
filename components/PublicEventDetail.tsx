@@ -97,10 +97,10 @@ export default function PublicEventDetail({
               {event.title}
             </h1>
             <span
-              className={`mt-4 inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
+              className={`mt-4 inline-flex shrink-0 items-center justify-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${
                 event.isClosed
-                  ? "bg-secondary-light/40 text-secondary-dark"
-                  : "bg-secondary-light text-primary-dark"
+                  ? "bg-rose-50 text-rose-700 ring-1 ring-inset ring-rose-600/20"
+                  : "bg-[#B7D894]/25 text-[#202734] ring-1 ring-inset ring-[#B7D894]/40"
               }`}
             >
               {event.isClosed ? "Closed" : "Open"}

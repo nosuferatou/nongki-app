@@ -36,10 +36,19 @@ export default async function EventsPage() {
           {events.map((event) => (
             <li key={event.id}>
               <article className="flex h-full flex-col rounded-3xl bg-white p-4 shadow-[0_2px_16px_rgba(32,39,52,0.05)] transition-shadow hover:shadow-[0_8px_24px_rgba(32,39,52,0.08)] sm:p-6">
-                <div className="flex items-start justify-between gap-3">
-                  <h2 className="text-lg font-semibold tracking-tight text-primary-dark">
+                <div className="mb-4 flex items-start justify-between gap-3">
+                  <h3 className="text-lg font-semibold tracking-tight text-slate-900">
                     {event.title}
-                  </h2>
+                  </h3>
+                  <span
+                    className={`inline-flex shrink-0 items-center justify-center rounded-full px-2.5 py-0.5 text-xs font-semibold ${
+                      event.isClosed
+                        ? "bg-rose-50 text-rose-700 ring-1 ring-inset ring-rose-600/20"
+                        : "bg-[#B7D894]/25 text-[#202734] ring-1 ring-inset ring-[#B7D894]/40"
+                    }`}
+                  >
+                    {event.isClosed ? "Closed" : "Open"}
+                  </span>
                 </div>
                 <dl className="mt-5 flex-1 space-y-4 text-sm">
                   <div className="flex items-start gap-3">
