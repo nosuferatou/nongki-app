@@ -26,7 +26,7 @@ export default async function Home() {
               Event management
             </h1>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="ml-auto flex items-center gap-3">
             <span className="text-sm font-medium text-secondary-dark">Admin</span>
             <form action={logoutAction}>
               <button

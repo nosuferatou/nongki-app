@@ -6,7 +6,7 @@ import EventMap from "@/components/EventMap";
 import EventStatusToggle from "@/components/EventStatusToggle";
 import InviteRsvpForm from "@/components/InviteRsvpForm";
 import type { getPublicInviteEvent } from "@/lib/eventQueries";
-import { CalendarDays, Clock3, MapPin, Trash2 } from "lucide-react";
+import { ArrowUpRight, CalendarDays, MapPin, Trash2 } from "lucide-react";
 
 type EventData = NonNullable<Awaited<ReturnType<typeof getPublicInviteEvent>>>;
 
@@ -137,13 +137,8 @@ export default function PublicEventDetail({
                 Date &amp; Time
               </h2>
               {isSameDay ? (
-                <div className="mt-2 flex min-w-0 items-center gap-2">
-                  <Clock3
-                    aria-hidden="true"
-                    className="mt-1 size-4 shrink-0 text-secondary-dark"
-                    strokeWidth={1.75}
-                  />
-                  <p className="min-w-0 break-words font-semibold leading-6 text-primary-dark">
+                <div className="mt-2 min-w-0">
+                  <p className="text-base font-medium text-primary-dark">
                     <time dateTime={event.eventDate.toISOString()}>
                       {dateOnlyFormatter.format(event.eventDate)}
                     </time>
@@ -167,30 +162,24 @@ export default function PublicEventDetail({
                     <dt className="w-14 shrink-0 pt-0.5 text-sm text-secondary-dark">
                       Starts
                     </dt>
-                    <dd className="flex min-w-0 items-center gap-2 break-words font-semibold leading-6 text-primary-dark">
-                      <Clock3
-                        aria-hidden="true"
-                        className="mt-1 size-4 shrink-0 text-secondary-dark"
-                        strokeWidth={1.75}
-                      />
-                      <time dateTime={event.eventDate.toISOString()}>
-                        {dateFormatter.format(event.eventDate)}
-                      </time>
+                    <dd className="min-w-0 break-words">
+                      <p className="text-base font-medium text-primary-dark">
+                        <time dateTime={event.eventDate.toISOString()}>
+                          {dateFormatter.format(event.eventDate)}
+                        </time>
+                      </p>
                     </dd>
                   </div>
                   <div className="flex min-w-0 items-center gap-3">
                     <dt className="w-14 shrink-0 pt-0.5 text-sm text-secondary-dark">
                       Ends
                     </dt>
-                    <dd className="flex min-w-0 items-center gap-2 break-words font-semibold leading-6 text-primary-dark">
-                      <Clock3
-                        aria-hidden="true"
-                        className="mt-1 size-4 shrink-0 text-secondary-dark"
-                        strokeWidth={1.75}
-                      />
-                      <time dateTime={event.endDate.toISOString()}>
-                        {dateFormatter.format(event.endDate)}
-                      </time>
+                    <dd className="min-w-0 break-words">
+                      <p className="text-base font-medium text-primary-dark">
+                        <time dateTime={event.endDate.toISOString()}>
+                          {dateFormatter.format(event.endDate)}
+                        </time>
+                      </p>
                     </dd>
                   </div>
                 </dl>
@@ -220,10 +209,14 @@ export default function PublicEventDetail({
                     href={`https://www.google.com/maps?q=${event.latitude},${event.longitude}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="mt-2 inline-flex min-h-11 items-center gap-1.5 text-sm font-medium text-[#202734] underline-offset-4 transition-all duration-200 hover:text-slate-600 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-dark"
+                    className="group inline-flex items-center gap-1.5 text-sm font-medium text-primary-dark hover:text-slate-600 hover:underline underline-offset-4 transition-all duration-200"
                   >
-                    <MapPin aria-hidden="true" className="size-4" />
                     Open in Google Maps
+                    <ArrowUpRight
+                      size={16}
+                      aria-hidden="true"
+                      className="text-slate-400 transition-colors group-hover:text-slate-600"
+                    />
                   </a>
                 )}
             </div>
@@ -233,12 +226,12 @@ export default function PublicEventDetail({
             event.longitude !== null &&
             Number.isFinite(event.latitude) &&
             Number.isFinite(event.longitude) && (
-              <div className="overflow-hidden rounded-xl border border-secondary-dark/20">
+              <div className="mt-3 relative z-0 h-48 w-full overflow-hidden rounded-xl border border-slate-200/80 bg-slate-50">
                 <EventMap
                   latitude={event.latitude}
                   longitude={event.longitude}
                   isInteractive={false}
-                  className="h-48 w-full sm:h-56"
+                  className="w-full h-full"
                 />
               </div>
             )}

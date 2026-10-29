@@ -1,10 +1,11 @@
 import Link from "next/link";
 import { connection } from "next/server";
+import { CalendarDays, MapPin } from "lucide-react";
 import { getUpcomingPublicEvents } from "@/lib/eventQueries";
 
 export const instant = false;
 
-const eventDateFormatter = new Intl.DateTimeFormat("en", {
+const dateFormatter = new Intl.DateTimeFormat("en", {
   dateStyle: "medium",
   timeStyle: "short",
 });
@@ -39,34 +40,47 @@ export default async function EventsPage() {
                   <h2 className="text-lg font-semibold tracking-tight text-primary-dark">
                     {event.title}
                   </h2>
-                  {event.isClosed && (
-                    <span className="shrink-0 rounded-full bg-secondary-light/40 px-3 py-1 text-xs font-medium text-secondary-dark">
-                      RSVP closed
-                    </span>
-                  )}
                 </div>
                 <dl className="mt-5 flex-1 space-y-4 text-sm">
-                  <div>
-                    <dt className="text-secondary-dark">Date</dt>
-                    <dd className="mt-1 font-medium text-primary-dark">
-                      <time dateTime={event.eventDate.toISOString()}>
-                        {eventDateFormatter.format(event.eventDate)}
-                      </time>
-                    </dd>
-                   </div>
-                  <div>
-                    <dt className="text-secondary-dark">Location</dt>
-                    <dd className="mt-1 font-medium text-primary-dark">
-                      {event.locationName}
-                    </dd>
+                  <div className="flex items-start gap-3">
+                    <CalendarDays
+                      aria-hidden="true"
+                      className="mt-0.5 size-4 shrink-0 text-secondary-dark/70"
+                    />
+                    <div>
+                      <dt className="text-secondary-dark">Date &amp; time</dt>
+                      <dd className="mt-1 font-medium text-primary-dark">
+                        <time dateTime={event.eventDate.toISOString()}>
+                          {dateFormatter.format(event.eventDate)}
+                        </time>
+                        <span className="px-1.5 text-secondary-dark/60">–</span>
+                        <time dateTime={event.endDate.toISOString()}>
+                          {dateFormatter.format(event.endDate)}
+                        </time>
+                      </dd>
+                    </div>
+                  </div>
+                  <div className="flex items-start gap-3">
+                    <MapPin
+                      aria-hidden="true"
+                      className="mt-0.5 size-4 shrink-0 text-secondary-dark/70"
+                    />
+                    <div>
+                      <dt className="text-secondary-dark">Location</dt>
+                      <dd className="mt-1 font-medium text-primary-dark">
+                        {event.locationName}
+                      </dd>
+                    </div>
                   </div>
                 </dl>
-                <Link
-                  href={`/event/${event.id}`}
-                  className="mt-6 inline-flex min-h-11 items-center justify-center rounded-xl bg-secondary-light/40 px-4 py-2 text-sm font-semibold text-secondary-dark transition-colors hover:bg-secondary-light active:scale-[0.98]"
-                >
-                  View event
-                </Link>
+                <div className="mt-6 flex flex-wrap items-center gap-2 border-t border-secondary-dark/10 pt-4">
+                  <Link
+                    href={`/invite/${event.id}`}
+                    className="inline-flex min-h-11 flex-1 items-center justify-center rounded-xl bg-secondary-light/40 px-4 py-2 text-sm font-semibold text-secondary-dark transition-colors hover:bg-secondary-light active:scale-[0.98]"
+                  >
+                    View event
+                  </Link>
+                </div>
               </article>
             </li>
           ))}
