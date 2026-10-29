@@ -219,6 +219,46 @@ export async function updateEvent(
   }
 }
 
+export async function closeEvent(
+  eventId: string,
+): Promise<{ success: boolean; error?: string }> {
+  try {
+    if (!(await isAdminAuthenticated())) {
+      return { success: false, error: "You must be signed in as an admin." };
+    }
+
+    if (typeof eventId !== "string" || !eventId.trim()) {
+      return { success: false, error: "A valid event is required." };
+    }
+
+    await prisma.event.update({
+      where: { id: eventId },
+      data: { isClosed: true },
+      select: { id: true },
+    });
+
+    revalidatePath("/");
+    revalidatePath("/events");
+    revalidatePath(`/event/${eventId}`);
+    revalidatePath(`/invite/${eventId}`);
+    return { success: true };
+  } catch (error) {
+    console.error("Failed to close event.", error);
+    if (
+      typeof error === "object" &&
+      error !== null &&
+      "code" in error &&
+      error.code === "P2025"
+    ) {
+      return { success: false, error: "This event could not be found." };
+    }
+    return {
+      success: false,
+      error: "Unable to close this event. Please try again.",
+    };
+  }
+}
+
 export async function getRecentEvents() {
   if (!(await isAdminAuthenticated())) {
     throw new Error("Admin authentication is required to view events.");
@@ -236,23 +276,45 @@ export async function getRecentEvents() {
   });
 }
 
-// Untuk toggle buka/tutup RSVP
-export async function toggleEventStatus(eventId: string, currentStatus: boolean) {
-  if (!(await isAdminAuthenticated())) {
-    return { success: false, error: "You must be signed in as an admin." };
-  }
-
+export async function toggleEventStatus(
+  eventId: string,
+  nextIsClosed: boolean,
+): Promise<{ success: boolean; error?: string }> {
   try {
+    if (!(await isAdminAuthenticated())) {
+      return { success: false, error: "You must be signed in as an admin." };
+    }
+    if (
+      typeof eventId !== "string" ||
+      !eventId.trim() ||
+      typeof nextIsClosed !== "boolean"
+    ) {
+      return { success: false, error: "Invalid event status." };
+    }
+
     await prisma.event.update({
       where: { id: eventId },
-      data: { isClosed: !currentStatus },
+      data: { isClosed: nextIsClosed },
     });
+    revalidatePath("/");
+    revalidatePath("/events");
     revalidatePath(`/event/${eventId}`);
     revalidatePath(`/invite/${eventId}`);
     return { success: true };
   } catch (error) {
     console.error("Failed to update event RSVP status.", error);
-    return { success: false, error: "Gagal mengubah status event" };
+    if (
+      typeof error === "object" &&
+      error !== null &&
+      "code" in error &&
+      error.code === "P2025"
+    ) {
+      return { success: false, error: "This event could not be found." };
+    }
+    return {
+      success: false,
+      error: "Unable to update event status. Please try again.",
+    };
   }
 }
 

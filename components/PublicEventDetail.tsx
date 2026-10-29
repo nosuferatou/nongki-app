@@ -3,9 +3,10 @@ import CopyInviteLink from "@/components/CopyInviteLink";
 import DeleteEventButton from "@/components/DeleteEventButton";
 import AdminGuestActions from "@/components/AdminGuestActions";
 import EventMap from "@/components/EventMap";
+import EventStatusToggle from "@/components/EventStatusToggle";
 import InviteRsvpForm from "@/components/InviteRsvpForm";
 import type { getPublicInviteEvent } from "@/lib/eventQueries";
-import { CalendarDays, Clock3, ExternalLink, MapPin } from "lucide-react";
+import { CalendarDays, Clock3, MapPin, Trash2 } from "lucide-react";
 
 type EventData = NonNullable<Awaited<ReturnType<typeof getPublicInviteEvent>>>;
 
@@ -78,7 +79,7 @@ export default function PublicEventDetail({
   }/invite/${event.id}`;
 
   return (
-    <main className="mx-auto max-w-4xl space-y-8 px-4 py-8 sm:px-8 sm:py-10">
+    <main className="mx-auto w-full min-w-0 max-w-4xl space-y-6 px-4 py-6 sm:px-8 sm:py-10">
       <Link
         href={isAdmin ? "/" : "/events"}
         className="inline-flex min-h-11 items-center gap-2 rounded-full bg-secondary-light/30 px-4 py-2 text-sm font-medium text-secondary-dark transition-all duration-200 hover:bg-secondary-light/70 active:scale-[0.98]"
@@ -86,159 +87,193 @@ export default function PublicEventDetail({
         {isAdmin ? "← Back to Dashboard" : "← Back to Browse Events"}
       </Link>
 
-      <header className="flex flex-col gap-5 sm:flex-row sm:items-start sm:justify-between">
-        <div>
-          <span className="mb-3 block text-sm font-semibold text-secondary-dark">
-            Event details
-          </span>
-          <h1 className="text-4xl font-bold tracking-tight text-primary-dark sm:text-5xl">
-            {event.title}
-          </h1>
-        </div>
-        {isAdmin && <DeleteEventButton eventId={event.id} />}
-      </header>
-
-      <section aria-label="Event information" className="space-y-6">
-        <div className="flex gap-4">
-          <CalendarDays
-            aria-hidden="true"
-            className="mt-0.5 size-5 shrink-0 text-secondary-dark"
-            strokeWidth={1.75}
-          />
+      <article className="overflow-hidden rounded-[24px] border border-slate-100 bg-white shadow-[0_2px_12px_rgba(0,0,0,0.03)]">
+        <header className="flex flex-col gap-5 p-4 sm:flex-row sm:items-start sm:justify-between sm:p-6 md:p-8">
           <div className="min-w-0">
-            <h2 className="text-sm font-semibold text-secondary-dark">Date &amp; Time</h2>
-            {isSameDay ? (
-              <div className="mt-2 flex items-start gap-2">
-                <Clock3
-                  aria-hidden="true"
-                  className="mt-1 size-4 shrink-0 text-secondary-dark"
-                  strokeWidth={1.75}
-                />
-                <p className="font-semibold leading-6 text-primary-dark">
-                  <time dateTime={event.eventDate.toISOString()}>
-                    {dateOnlyFormatter.format(event.eventDate)}
-                  </time>
-                  <span className="px-2 text-secondary-dark/60" aria-hidden="true">
-                    ·
-                  </span>
-                  <time dateTime={event.eventDate.toISOString()}>
-                    {timeFormatter.format(event.eventDate)}
-                  </time>
-                  <span className="px-2 text-secondary-dark/60" aria-hidden="true">
-                    –
-                  </span>
-                  <time dateTime={event.endDate.toISOString()}>
-                    {timeFormatter.format(event.endDate)}
-                  </time>
-                </p>
-              </div>
-            ) : (
-              <dl className="mt-2 space-y-3">
-                <div className="flex items-start gap-3">
-                  <dt className="w-14 shrink-0 pt-0.5 text-sm text-secondary-dark">
-                    Starts
-                  </dt>
-                  <dd className="flex items-start gap-2 font-semibold leading-6 text-primary-dark">
-                    <Clock3
-                      aria-hidden="true"
-                      className="mt-1 size-4 shrink-0 text-secondary-dark"
-                      strokeWidth={1.75}
-                    />
-                    <time dateTime={event.eventDate.toISOString()}>
-                      {dateFormatter.format(event.eventDate)}
-                    </time>
-                  </dd>
-                </div>
-                <div className="flex items-start gap-3">
-                  <dt className="w-14 shrink-0 pt-0.5 text-sm text-secondary-dark">
-                    Ends
-                  </dt>
-                  <dd className="flex items-start gap-2 font-semibold leading-6 text-primary-dark">
-                    <Clock3
-                      aria-hidden="true"
-                      className="mt-1 size-4 shrink-0 text-secondary-dark"
-                      strokeWidth={1.75}
-                    />
-                    <time dateTime={event.endDate.toISOString()}>
-                      {dateFormatter.format(event.endDate)}
-                    </time>
-                  </dd>
-                </div>
-              </dl>
-            )}
+            <span className="mb-2 block text-sm font-medium uppercase tracking-wider text-slate-500">
+              Event details
+            </span>
+            <h1 className="break-words text-xl font-semibold tracking-tight text-[#202734] md:text-2xl">
+              {event.title}
+            </h1>
+            <span
+              className={`mt-4 inline-flex rounded-full px-3 py-1 text-xs font-semibold ${
+                event.isClosed
+                  ? "bg-secondary-light/40 text-secondary-dark"
+                  : "bg-secondary-light text-primary-dark"
+              }`}
+            >
+              {event.isClosed ? "Closed" : "Open"}
+            </span>
           </div>
-        </div>
-
-        <div className="flex gap-4 border-t border-secondary-dark/15 pt-6">
-          <MapPin
-            aria-hidden="true"
-            className="mt-0.5 size-5 shrink-0 text-secondary-dark"
-            strokeWidth={1.75}
-          />
-          <div>
-            <h2 className="text-sm font-semibold text-secondary-dark">Location</h2>
-            <p className="mt-1 font-semibold text-primary-dark">
-              {event.locationName}
-            </p>
-            {!isAdmin &&
-              event.latitude !== null &&
-              event.longitude !== null &&
-              Number.isFinite(event.latitude) &&
-              Number.isFinite(event.longitude) && (
-                <a
-                  href={`https://www.google.com/maps?q=${event.latitude},${event.longitude}`}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="mt-2 inline-flex min-h-11 items-center justify-center gap-2 rounded-full border border-secondary-dark/20 bg-white px-4 py-2 text-sm font-semibold text-primary-dark transition-colors hover:bg-secondary-light/50 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-dark"
-                >
-                  Open in Google Maps
-                  <ExternalLink aria-hidden="true" className="size-3.5" />
-                </a>
-              )}
-          </div>
-        </div>
-
-        {event.latitude !== null &&
-          event.longitude !== null &&
-          Number.isFinite(event.latitude) &&
-          Number.isFinite(event.longitude) && (
-            <div className="overflow-hidden rounded-xl border border-secondary-dark/20">
-              <EventMap
-                latitude={event.latitude}
-                longitude={event.longitude}
-                isInteractive={false}
-                className="h-48 w-full"
+          {isAdmin && (
+            <div className="flex shrink-0 items-center justify-end gap-2 self-end sm:self-start">
+              <EventStatusToggle
+                eventId={event.id}
+                isClosed={event.isClosed}
+              />
+              <DeleteEventButton
+                eventId={event.id}
+                iconOnly
+                icon={<Trash2 aria-hidden="true" size={20} />}
+                className="inline-flex size-11 items-center justify-center rounded-full p-2 text-red-500 transition-colors hover:bg-red-50 hover:text-red-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 disabled:cursor-not-allowed disabled:opacity-60"
               />
             </div>
           )}
+        </header>
 
-        {event.description && (
-          <div className="border-t border-secondary-dark/15 pt-6">
-            <h2 className="text-sm font-semibold text-secondary-dark">Description</h2>
-            <p className="mt-2 whitespace-pre-wrap text-base leading-7 text-primary-dark">
-              {event.description}
-            </p>
+        <section
+          aria-label="Event information"
+          className="space-y-6 border-t border-slate-100 p-4 sm:p-6 md:p-8"
+        >
+          <div className="flex min-w-0 items-center gap-3 sm:gap-4">
+            <CalendarDays
+              aria-hidden="true"
+              className="mt-0.5 size-5 shrink-0 text-secondary-dark"
+              strokeWidth={1.75}
+            />
+            <div className="min-w-0 flex-1">
+              <h2 className="text-sm font-medium uppercase tracking-wider text-slate-500">
+                Date &amp; Time
+              </h2>
+              {isSameDay ? (
+                <div className="mt-2 flex min-w-0 items-center gap-2">
+                  <Clock3
+                    aria-hidden="true"
+                    className="mt-1 size-4 shrink-0 text-secondary-dark"
+                    strokeWidth={1.75}
+                  />
+                  <p className="min-w-0 break-words font-semibold leading-6 text-primary-dark">
+                    <time dateTime={event.eventDate.toISOString()}>
+                      {dateOnlyFormatter.format(event.eventDate)}
+                    </time>
+                    <span className="px-2 text-secondary-dark/60" aria-hidden="true">
+                      ·
+                    </span>
+                    <time dateTime={event.eventDate.toISOString()}>
+                      {timeFormatter.format(event.eventDate)}
+                    </time>
+                    <span className="px-2 text-secondary-dark/60" aria-hidden="true">
+                      –
+                    </span>
+                    <time dateTime={event.endDate.toISOString()}>
+                      {timeFormatter.format(event.endDate)}
+                    </time>
+                  </p>
+                </div>
+              ) : (
+                <dl className="mt-2 space-y-3">
+                  <div className="flex min-w-0 items-center gap-3">
+                    <dt className="w-14 shrink-0 pt-0.5 text-sm text-secondary-dark">
+                      Starts
+                    </dt>
+                    <dd className="flex min-w-0 items-center gap-2 break-words font-semibold leading-6 text-primary-dark">
+                      <Clock3
+                        aria-hidden="true"
+                        className="mt-1 size-4 shrink-0 text-secondary-dark"
+                        strokeWidth={1.75}
+                      />
+                      <time dateTime={event.eventDate.toISOString()}>
+                        {dateFormatter.format(event.eventDate)}
+                      </time>
+                    </dd>
+                  </div>
+                  <div className="flex min-w-0 items-center gap-3">
+                    <dt className="w-14 shrink-0 pt-0.5 text-sm text-secondary-dark">
+                      Ends
+                    </dt>
+                    <dd className="flex min-w-0 items-center gap-2 break-words font-semibold leading-6 text-primary-dark">
+                      <Clock3
+                        aria-hidden="true"
+                        className="mt-1 size-4 shrink-0 text-secondary-dark"
+                        strokeWidth={1.75}
+                      />
+                      <time dateTime={event.endDate.toISOString()}>
+                        {dateFormatter.format(event.endDate)}
+                      </time>
+                    </dd>
+                  </div>
+                </dl>
+              )}
+            </div>
           </div>
-        )}
 
-        {event.notes && (
-          <div className="border-t border-secondary-dark/15 pt-6">
-            <h2 className="text-sm font-semibold text-secondary-dark">Notes</h2>
-            <p className="mt-2 whitespace-pre-wrap text-base leading-7 text-primary-dark">
-              {event.notes}
-            </p>
+          <div className="flex min-w-0 items-center gap-3 border-t border-slate-100 pt-6 sm:gap-4">
+            <MapPin
+              aria-hidden="true"
+              className="mt-0.5 size-5 shrink-0 text-secondary-dark"
+              strokeWidth={1.75}
+            />
+            <div className="min-w-0 flex-1">
+              <h2 className="text-sm font-medium uppercase tracking-wider text-slate-500">
+                Location
+              </h2>
+              <p className="mt-1 break-words font-semibold text-primary-dark">
+                {event.locationName}
+              </p>
+              {!isAdmin &&
+                event.latitude !== null &&
+                event.longitude !== null &&
+                Number.isFinite(event.latitude) &&
+                Number.isFinite(event.longitude) && (
+                  <a
+                    href={`https://www.google.com/maps?q=${event.latitude},${event.longitude}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="mt-2 inline-flex min-h-11 items-center gap-1.5 text-sm font-medium text-[#202734] underline-offset-4 transition-all duration-200 hover:text-slate-600 hover:underline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-dark"
+                  >
+                    <MapPin aria-hidden="true" className="size-4" />
+                    Open in Google Maps
+                  </a>
+                )}
+            </div>
           </div>
-        )}
-      </section>
+
+          {event.latitude !== null &&
+            event.longitude !== null &&
+            Number.isFinite(event.latitude) &&
+            Number.isFinite(event.longitude) && (
+              <div className="overflow-hidden rounded-xl border border-secondary-dark/20">
+                <EventMap
+                  latitude={event.latitude}
+                  longitude={event.longitude}
+                  isInteractive={false}
+                  className="h-48 w-full sm:h-56"
+                />
+              </div>
+            )}
+
+          {event.description && (
+            <div className="border-t border-slate-100 pt-6">
+              <h2 className="text-sm font-medium uppercase tracking-wider text-slate-500">
+                Description
+              </h2>
+              <p className="mt-2 whitespace-pre-wrap text-sm leading-relaxed text-slate-600 md:text-base">
+                {event.description}
+              </p>
+            </div>
+          )}
+
+          {event.notes && (
+            <div className="border-t border-slate-100 pt-6">
+              <h2 className="text-sm font-medium uppercase tracking-wider text-slate-500">
+                Notes
+              </h2>
+              <p className="mt-2 whitespace-pre-wrap text-sm leading-relaxed text-slate-600 md:text-base">
+                {event.notes}
+              </p>
+            </div>
+          )}
+        </section>
 
       {isAdmin && (
         <section
           aria-labelledby="share-link-heading"
-          className="border-t border-secondary-dark/15 pt-8"
+          className="border-t border-slate-100 p-4 sm:p-6 md:p-8"
         >
           <h2
             id="share-link-heading"
-            className="mb-3 text-sm font-semibold text-secondary-dark"
+            className="mb-3 text-sm font-medium uppercase tracking-wider text-slate-500"
           >
             Shareable Invite Link
           </h2>
@@ -248,38 +283,38 @@ export default function PublicEventDetail({
 
       <section
         aria-labelledby="attendance-heading"
-        className="border-t border-secondary-dark/15 pt-8"
+        className="border-t border-slate-100 p-4 sm:p-6 md:p-8"
       >
-        <h2 id="attendance-heading" className="mb-5 text-xl font-bold tracking-tight text-primary-dark">
+        <h2 id="attendance-heading" className="mb-5 text-xl font-semibold tracking-tight text-[#202734]">
           Attendance summary
         </h2>
-        <dl className="grid grid-cols-2 gap-4 sm:grid-cols-5">
+        <dl className="grid grid-cols-2 gap-x-3 gap-y-5 sm:grid-cols-3 sm:gap-4 lg:grid-cols-5">
           <div className="flex flex-col">
-            <dt className="order-2 mt-1 text-sm text-secondary-dark">Total guests</dt>
+            <dt className="order-2 mt-1 text-sm text-slate-500">Total guests</dt>
             <dd className="order-1 text-2xl font-bold tracking-tight text-primary-dark">
               {event.guests.length}
             </dd>
           </div>
           <div className="flex flex-col">
-            <dt className="order-2 mt-1 text-sm text-secondary-dark">Attending</dt>
+            <dt className="order-2 mt-1 text-sm text-slate-500">Attending</dt>
             <dd className="order-1 text-2xl font-bold tracking-tight text-primary-dark">
               {acceptedCount}
             </dd>
           </div>
           <div className="flex flex-col">
-            <dt className="order-2 mt-1 text-sm text-secondary-dark">Spots left</dt>
+            <dt className="order-2 mt-1 text-sm text-slate-500">Spots left</dt>
             <dd className="order-1 text-2xl font-bold tracking-tight text-primary-dark">
               {remainingQuota}
             </dd>
           </div>
           <div className="flex flex-col">
-            <dt className="order-2 mt-1 text-sm text-secondary-dark">Waitlisted</dt>
+            <dt className="order-2 mt-1 text-sm text-slate-500">Waitlisted</dt>
             <dd className="order-1 text-2xl font-bold tracking-tight text-primary-dark">
               {waitlistedCount}
             </dd>
           </div>
           <div className="flex flex-col">
-            <dt className="order-2 mt-1 text-sm text-secondary-dark">Declined</dt>
+            <dt className="order-2 mt-1 text-sm text-slate-500">Declined</dt>
             <dd className="order-1 text-2xl font-bold tracking-tight text-primary-dark">
               {declinedCount}
             </dd>
@@ -288,11 +323,11 @@ export default function PublicEventDetail({
       </section>
 
       {!isAdmin && (
-        <section className="border-t border-secondary-dark/15 pt-8">
+        <section className="border-t border-slate-100 p-4 sm:p-6 md:p-8">
           {submitted ? (
             <div
               aria-labelledby="rsvp-success-heading"
-              className="rounded-3xl bg-white px-4 py-8 text-center shadow-[0_2px_16px_rgba(32,39,52,0.05)] sm:px-6"
+              className="text-center"
               role="status"
             >
               <h2
@@ -331,7 +366,7 @@ export default function PublicEventDetail({
               )}
             </div>
           ) : event.isClosed ? (
-            <div className="rounded-3xl bg-white px-4 py-8 text-center shadow-[0_2px_16px_rgba(32,39,52,0.05)] sm:px-6">
+            <div className="text-center">
               <h2 className="text-lg font-bold tracking-tight text-primary-dark">
                 RSVP is closed
               </h2>
@@ -350,9 +385,9 @@ export default function PublicEventDetail({
 
       <section
         aria-labelledby="guests-heading"
-        className="border-t border-secondary-dark/15 pt-8"
+        className="border-t border-slate-100 p-4 sm:p-6 md:p-8"
       >
-        <h2 id="guests-heading" className="mb-5 text-xl font-bold tracking-tight text-primary-dark">
+        <h2 id="guests-heading" className="mb-5 text-xl font-semibold tracking-tight text-[#202734]">
           Guest responses
         </h2>
         {event.guests.length > 0 ? (
@@ -362,10 +397,12 @@ export default function PublicEventDetail({
                 key={guest.id}
                 className="flex flex-col gap-2 py-4 sm:flex-row sm:items-start sm:justify-between sm:gap-6"
               >
-                <div className="flex-1">
-                  <p className="font-semibold text-primary-dark">{guest.name}</p>
+                <div className="min-w-0 flex-1">
+                  <p className="break-words font-semibold text-primary-dark">
+                    {guest.name}
+                  </p>
                   {guest.status === "DECLINED" && guest.reason && (
-                    <p className="mt-1 whitespace-pre-wrap text-sm text-secondary-dark">
+                    <p className="mt-1 break-words whitespace-pre-wrap text-sm text-secondary-dark">
                       {guest.reason}
                     </p>
                   )}
@@ -402,6 +439,7 @@ export default function PublicEventDetail({
           </p>
         )}
       </section>
+      </article>
     </main>
   );
 }

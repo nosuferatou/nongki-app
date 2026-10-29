@@ -3,6 +3,7 @@
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import type { ReactNode } from "react";
+import { LoaderCircle } from "lucide-react";
 import { deleteEvent } from "@/actions/eventActions";
 
 type DeleteEventButtonProps = {
@@ -60,7 +61,11 @@ export default function DeleteEventButton({
         }
       >
         {iconOnly ? (
-          isPending ? "…" : icon
+          isPending ? (
+            <LoaderCircle aria-hidden="true" size={20} className="animate-spin" />
+          ) : (
+            icon
+          )
         ) : isPending ? (
           "Deleting..."
         ) : (

@@ -18,6 +18,15 @@ type NominatimResult = {
   lon: string;
 };
 
+function MapSkeleton() {
+  return (
+    <div
+      aria-label="Loading map"
+      className="w-full h-48 bg-slate-100 animate-pulse rounded-xl"
+    />
+  );
+}
+
 function isNominatimResult(value: unknown): value is NominatimResult {
   if (typeof value !== "object" || value === null) return false;
   const result = value as Record<string, unknown>;
@@ -29,14 +38,9 @@ function isNominatimResult(value: unknown): value is NominatimResult {
   );
 }
 
-const EventMapCanvas = dynamic(() => import("@/components/EventMapCanvas"), {
+const EventMapCanvas = dynamic(() => import("./EventMapCanvas"), {
   ssr: false,
-  loading: () => (
-    <div
-      aria-label="Loading map"
-      className="h-full min-h-48 w-full animate-pulse bg-primary-dark"
-    />
-  ),
+  loading: () => <MapSkeleton />,
 });
 
 export default function EventMap({
