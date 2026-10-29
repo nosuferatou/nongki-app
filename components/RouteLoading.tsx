@@ -11,7 +11,7 @@ export default function RouteLoading({ label }: RouteLoadingProps) {
     >
       <svg
         aria-hidden="true"
-        className="size-8 animate-spin text-primary-dark"
+        className="size-8 animate-spin text-primary-dark dark:text-[#D1EDD3]"
         viewBox="0 0 24 24"
         fill="none"
       >
@@ -29,7 +29,7 @@ export default function RouteLoading({ label }: RouteLoadingProps) {
           d="M4 12a8 8 0 0 1 8-8V0C5.373 0 0 5.373 0 12h4Zm2 5.291A7.962 7.962 0 0 1 4 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647Z"
         />
       </svg>
-      <p className="text-sm font-medium text-secondary-dark">{label}</p>
+      <p className="text-sm font-medium text-slate-500 dark:text-[#ACC5A6]">{label}</p>
     </div>
   );
 }

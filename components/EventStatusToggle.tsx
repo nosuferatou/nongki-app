@@ -48,7 +48,7 @@ export default function EventStatusToggle({
         />
         <span
           aria-hidden="true"
-          className="relative inline-flex h-6 w-11 shrink-0 items-center rounded-full bg-slate-300 transition-colors after:absolute after:left-1 after:top-1 after:size-4 after:rounded-full after:bg-white after:transition-transform peer-checked:bg-primary-light peer-checked:after:translate-x-5 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-primary-dark peer-disabled:cursor-not-allowed peer-disabled:opacity-60"
+          className="relative inline-flex h-6 w-11 shrink-0 items-center rounded-full bg-slate-300 transition-colors after:absolute after:left-1 after:top-1 after:size-4 after:rounded-full after:bg-white after:transition-transform peer-checked:bg-primary-light peer-checked:after:translate-x-5 peer-focus-visible:outline-2 peer-focus-visible:outline-offset-2 peer-focus-visible:outline-primary-dark peer-disabled:cursor-not-allowed peer-disabled:opacity-60 dark:bg-slate-700"
         />
         <span className="sr-only">
           {isPending
@@ -59,7 +59,7 @@ export default function EventStatusToggle({
         </span>
       </label>
       {error && (
-        <p role="alert" className="max-w-48 text-right text-xs text-red-700">
+        <p role="alert" className="max-w-48 text-right text-xs text-red-700 dark:text-rose-300">
           {error}
         </p>
       )}

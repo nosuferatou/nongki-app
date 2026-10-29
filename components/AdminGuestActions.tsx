@@ -47,7 +47,7 @@ export default function AdminGuestActions({
             type="button"
             disabled={isPending}
             onClick={declineGuest}
-            className="min-h-11 rounded-lg px-3 text-xs font-semibold text-secondary-dark transition-colors hover:bg-secondary-light/60 disabled:opacity-60"
+            className="min-h-11 rounded-xl px-3 text-sm font-semibold text-secondary-dark transition-all hover:bg-secondary-light/40 active:scale-[0.98] disabled:opacity-60 dark:text-[#D1EDD3] dark:hover:bg-[#5C7057]/30"
           >
             Mark declined
           </button>
@@ -56,13 +56,13 @@ export default function AdminGuestActions({
           type="button"
           disabled={isPending}
           onClick={removeGuest}
-          className="min-h-11 rounded-lg px-3 text-xs font-semibold text-secondary-dark transition-colors hover:bg-red-50 hover:text-red-700 disabled:opacity-60"
+          className="min-h-11 rounded-xl px-3 text-sm font-semibold text-rose-700 transition-all hover:bg-rose-50 active:scale-[0.98] disabled:opacity-60 dark:text-rose-300 dark:hover:bg-rose-950/40"
         >
           Remove
         </button>
       </div>
       {error && (
-        <p role="alert" className="text-xs text-red-700">
+        <p role="alert" className="text-xs text-red-700 dark:text-rose-300">
           {error}
         </p>
       )}

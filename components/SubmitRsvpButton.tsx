@@ -17,10 +17,10 @@ export default function SubmitRsvpButton({
     <button
       type="submit"
       disabled={pending}
-      className={`inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl px-4 py-3.5 text-sm font-semibold transition duration-150 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-dark disabled:cursor-not-allowed disabled:opacity-70 ${
+      className={`inline-flex min-h-11 w-full items-center justify-center gap-2 rounded-xl px-4 py-2.5 text-sm font-semibold transition-all active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-dark disabled:cursor-not-allowed disabled:opacity-70 ${
         waitlist
-          ? "bg-primary-dark text-primary-light hover:bg-secondary-dark"
-          : "bg-primary-light text-primary-dark hover:bg-secondary-light"
+          ? "bg-secondary-dark text-white hover:bg-primary-dark dark:bg-[#2b3629] dark:text-[#D1EDD3] dark:hover:bg-[#2b3629]/80"
+          : "bg-secondary-light/40 text-secondary-dark hover:bg-secondary-light dark:bg-[#5C7057]/40 dark:text-[#D1EDD3] dark:hover:bg-[#5C7057]/70"
       }`}
     >
       {pending && (

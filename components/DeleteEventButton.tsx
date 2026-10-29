@@ -57,7 +57,7 @@ export default function DeleteEventButton({
         title={iconOnly ? "Delete event" : undefined}
         className={
           className ??
-          "inline-flex min-h-11 items-center justify-center rounded-xl border border-red-200 px-4 py-2 text-sm font-medium text-red-600 transition-colors hover:bg-red-50 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-red-600 disabled:cursor-not-allowed disabled:opacity-60"
+          "inline-flex min-h-11 items-center justify-center rounded-xl border border-rose-600/20 px-4 py-2.5 text-sm font-semibold text-rose-700 transition-all hover:bg-rose-50 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-rose-600 disabled:cursor-not-allowed disabled:opacity-60 dark:border-rose-500/30 dark:text-rose-300 dark:hover:bg-rose-950/40"
         }
       >
         {iconOnly ? (
@@ -73,7 +73,7 @@ export default function DeleteEventButton({
         )}
       </button>
       {error && (
-        <p role="alert" className="absolute right-0 top-full z-10 mt-1 w-56 rounded-lg bg-white p-2 text-sm text-red-700 shadow-md">
+        <p role="alert" className="absolute right-0 top-full z-10 mt-1 w-56 rounded-xl border border-slate-100 bg-white p-2 text-sm text-rose-700 shadow-[0_2px_16px_rgba(32,39,52,0.05)] dark:border-[#5C7057]/50 dark:bg-[#3b4a38] dark:text-rose-300 dark:shadow-none">
           {error}
         </p>
       )}

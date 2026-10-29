@@ -145,7 +145,9 @@ export default function EventMapCanvas({
     : defaultCenter;
 
   if (!mounted) {
-    return <div className="w-full h-48 bg-slate-100 animate-pulse rounded-xl" />;
+    return (
+      <div className="h-48 w-full animate-pulse rounded-xl bg-slate-100 dark:bg-[#5C7057]/30" />
+    );
   }
 
   return (
@@ -160,7 +162,7 @@ export default function EventMapCanvas({
         zoomControl={isInteractive}
         keyboard={isInteractive}
         boxZoom={isInteractive}
-        className="h-full w-full bg-primary-dark"
+        className="h-full w-full bg-[#2b3629]"
       >
         <MapCenterUpdater
           latitude={hasCoordinates ? latitude : null}

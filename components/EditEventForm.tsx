@@ -25,9 +25,9 @@ type EditState = {
 };
 
 const initialState: EditState = { success: false };
-const labelClassName = "block text-sm font-semibold text-secondary-dark";
+const labelClassName = "block text-[13px] font-medium text-slate-500 dark:text-[#ACC5A6]";
 const inputClassName =
-  "mt-2 block min-h-11 w-full rounded-xl border border-secondary-dark/20 bg-white px-4 py-3 text-base text-primary-dark placeholder:text-secondary-dark/60 transition focus:border-primary-light focus:outline-none focus:ring-4 focus:ring-primary-light/40";
+  "mt-2 block min-h-11 w-full rounded-xl border border-slate-200/60 bg-white px-4 py-3 text-sm text-slate-800 placeholder:text-slate-400 transition focus:border-primary-light focus:outline-none focus:ring-4 focus:ring-primary-light/40 dark:border-[#5C7057]/50 dark:bg-[#2b3629] dark:text-[#D1EDD3] dark:placeholder:text-[#ACC5A6] sm:text-[15px]";
 
 async function submitUpdate(
   _previousState: EditState,
@@ -48,21 +48,21 @@ export default function EditEventForm({ event }: { event: EditableEvent }) {
     <section className="mx-auto max-w-3xl px-4 pt-8 pb-10 sm:px-8 sm:pt-10">
       <Link
         href={`/event/${event.id}`}
-        className="inline-flex min-h-11 items-center gap-2 rounded-full bg-secondary-light/30 px-4 py-2 text-sm font-medium text-secondary-dark transition-all duration-200 hover:bg-secondary-light/70 active:scale-[0.98]"
+        className="inline-flex min-h-11 items-center gap-2 rounded-xl bg-secondary-light/40 px-4 py-2 text-sm font-semibold text-secondary-dark transition-all hover:bg-secondary-light active:scale-[0.98] dark:bg-[#5C7057]/40 dark:text-[#D1EDD3] dark:hover:bg-[#5C7057]/70"
       >
         <span aria-hidden="true">←</span>
         Back to event
       </Link>
       <header className="mb-7 mt-6">
-        <p className="mb-2 text-sm font-semibold text-secondary-dark">Workspace / Events</p>
-        <h1 className="text-3xl font-bold tracking-tight text-primary-dark">
+        <p className="mb-2 text-[13px] font-medium text-slate-500 dark:text-[#ACC5A6]">Workspace / Events</p>
+        <h1 className="text-lg font-semibold tracking-tight text-[#202734] dark:text-[#D1EDD3] sm:text-xl">
           Edit event
         </h1>
       </header>
 
       <form
         action={formAction}
-        className="space-y-6 rounded-3xl bg-white p-4 shadow-[0_2px_16px_rgba(32,39,52,0.05)] sm:p-8"
+        className="space-y-4 rounded-3xl border border-slate-100 bg-white p-4 shadow-[0_2px_16px_rgba(32,39,52,0.05)] transition-shadow dark:border-[#5C7057]/40 dark:bg-[#3b4a38] dark:shadow-none sm:p-6"
       >
         <input type="hidden" name="eventId" value={event.id} />
 
@@ -122,7 +122,7 @@ export default function EditEventForm({ event }: { event: EditableEvent }) {
             name="longitude"
             value={longitude === null ? "" : String(longitude)}
           />
-          <p className="mt-2 text-xs text-slate-500">
+          <p className="mt-2 text-[13px] text-slate-500 dark:text-[#ACC5A6]">
             Click on the map to pin the exact location.
           </p>
         </div>
@@ -170,12 +170,12 @@ export default function EditEventForm({ event }: { event: EditableEvent }) {
         </div>
 
         {state.error && (
-          <p role="alert" className="rounded-xl bg-red-50 px-4 py-3 text-sm text-red-700">
+          <p role="alert" className="rounded-xl bg-rose-50 px-4 py-3 text-sm text-rose-700 dark:bg-rose-950/40 dark:text-rose-300">
             {state.error}
           </p>
         )}
         {state.success && (
-          <p role="status" className="rounded-xl bg-secondary-light/70 px-4 py-3 text-sm font-medium text-primary-dark">
+          <p role="status" className="rounded-xl bg-secondary-light/70 px-4 py-3 text-sm font-medium text-primary-dark dark:bg-[#5C7057]/40 dark:text-[#D1EDD3]">
             Event updated.{" "}
             <Link href={`/event/${event.id}`} className="underline underline-offset-2">
               View event
@@ -186,7 +186,7 @@ export default function EditEventForm({ event }: { event: EditableEvent }) {
         <button
           type="submit"
           disabled={pending}
-          className="inline-flex min-h-11 items-center justify-center rounded-xl bg-primary-light px-6 py-3 text-sm font-semibold text-primary-dark transition duration-150 hover:bg-secondary-light active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-dark disabled:cursor-not-allowed disabled:opacity-60"
+          className="inline-flex min-h-11 items-center justify-center rounded-xl bg-secondary-light/40 px-6 py-2.5 text-sm font-semibold text-secondary-dark transition-all hover:bg-secondary-light active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-dark disabled:cursor-not-allowed disabled:opacity-60 dark:bg-[#5C7057]/40 dark:text-[#D1EDD3] dark:hover:bg-[#5C7057]/70"
         >
           {pending ? "Saving..." : "Save"}
         </button>

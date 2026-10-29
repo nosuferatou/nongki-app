@@ -22,7 +22,7 @@ function MapSkeleton() {
   return (
     <div
       aria-label="Loading map"
-      className="w-full h-48 bg-slate-100 animate-pulse rounded-xl"
+      className="h-48 w-full animate-pulse rounded-xl bg-slate-100 dark:bg-[#5C7057]/30"
     />
   );
 }
@@ -137,7 +137,7 @@ export default function EventMap({
     <div
       className={`relative z-0 ${
         isInteractive
-          ? "overflow-hidden rounded-xl border border-slate-200/80 bg-white shadow-sm"
+          ? "overflow-hidden rounded-3xl border border-slate-100 bg-white shadow-[0_2px_16px_rgba(32,39,52,0.05)] transition-shadow dark:border-[#5C7057]/40 dark:bg-[#3b4a38] dark:shadow-none"
           : ""
       } ${className ?? ""}`}
       onBlur={(event) => {
@@ -147,7 +147,7 @@ export default function EventMap({
       }}
     >
       {isInteractive && (
-        <div className="relative z-20 border-b border-slate-200/80 bg-white p-2.5">
+        <div className="relative z-20 border-b border-slate-200/60 bg-white p-2.5 dark:border-[#5C7057]/50 dark:bg-[#3b4a38]">
           <label htmlFor="event-location-search" className="sr-only">
             Search location
           </label>
@@ -158,29 +158,29 @@ export default function EventMap({
             value={query}
             onChange={(event) => handleSearchChange(event.target.value)}
             placeholder="Search location (e.g., Senayan City)..."
-            className="block min-h-11 w-full rounded-lg border border-slate-200/80 bg-white px-3 py-2.5 text-sm text-primary-dark placeholder:text-secondary-dark/60 focus:border-primary-light focus:outline-none focus:ring-2 focus:ring-primary-light/30"
+            className="block min-h-11 w-full rounded-xl border border-slate-200/60 bg-white px-3 py-2.5 text-sm text-slate-800 placeholder:text-slate-400 focus:border-primary-light focus:outline-none focus:ring-2 focus:ring-primary-light/30 dark:border-[#5C7057]/50 dark:bg-[#2b3629] dark:text-[#D1EDD3] dark:placeholder:text-[#ACC5A6]"
           />
           {isSearching && (
-            <p className="px-4 pb-2 text-xs text-secondary-dark" role="status">
+            <p className="px-4 pb-2 text-[13px] text-slate-500 dark:text-[#ACC5A6]" role="status">
               Searching locations...
             </p>
           )}
           {searchError && (
-            <p className="px-4 pb-2 text-xs text-red-700" role="alert">
+            <p className="px-4 pb-2 text-xs text-red-700 dark:text-rose-300" role="alert">
               {searchError}
             </p>
           )}
           {results.length > 0 && (
             <ul
               aria-label="Location search results"
-              className="absolute left-2.5 right-2.5 top-full z-30 max-h-56 overflow-y-auto rounded-lg border border-slate-200/80 bg-white shadow-lg"
+              className="absolute left-2.5 right-2.5 top-full z-30 max-h-56 overflow-y-auto rounded-xl border border-slate-100 bg-white shadow-[0_2px_16px_rgba(32,39,52,0.05)] dark:border-[#5C7057]/50 dark:bg-[#3b4a38] dark:shadow-none"
             >
               {results.map((result) => (
                 <li key={result.place_id}>
                   <button
                     type="button"
                     onClick={() => selectLocation(result)}
-                    className="min-h-11 w-full px-4 py-3 text-left text-sm text-primary-dark hover:bg-secondary-light/50 focus:bg-secondary-light/50 focus:outline-none"
+                    className="min-h-11 w-full px-4 py-3 text-left text-sm text-slate-800 transition-colors hover:bg-secondary-light/40 focus:bg-secondary-light/40 focus:outline-none dark:text-[#D1EDD3]/90 dark:hover:bg-[#5C7057]/30 dark:focus:bg-[#5C7057]/30"
                   >
                     {result.display_name}
                   </button>
@@ -192,7 +192,7 @@ export default function EventMap({
             !searchError &&
             query.trim().length >= 3 &&
             results.length === 0 && (
-              <p className="px-4 pb-2 text-xs text-secondary-dark" role="status">
+              <p className="px-4 pb-2 text-[13px] text-slate-500 dark:text-[#ACC5A6]" role="status">
                 No matching locations found.
               </p>
             )}

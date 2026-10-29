@@ -1,5 +1,7 @@
 @import "tailwindcss";
 
+@custom-variant dark (&:where(.dark, .dark *));
+
 @theme {
   --color-primary-dark: #202734;
   --color-secondary-dark: #36415a;
@@ -16,10 +18,34 @@ html {
   background: #f7f9f4;
 }
 
+html.dark {
+  color-scheme: dark;
+  background: #2b3629;
+}
+
+.dark {
+  --color-slate-950: #2b3629;
+  --color-slate-900: #3b4a38;
+  --color-slate-800: #5c7057;
+  --color-slate-700: #5c7057;
+  --color-slate-600: #acc5a6;
+  --color-slate-500: #acc5a6;
+  --color-slate-400: #acc5a6;
+  --color-slate-300: #d1edd3;
+  --color-slate-200: #d1edd3;
+  --color-slate-100: #d1edd3;
+}
+
+.dark .text-primary-dark {
+  color: #d1edd3;
+}
+
+.dark .text-secondary-dark {
+  color: #acc5a6;
+}
+
 body {
   margin: 0;
-  background: #f7f9f4;
-  color: #202734;
   font-family: var(--font-poppins), sans-serif;
 }
 
@@ -56,6 +82,13 @@ a {
   --rdp-day-height: 2.5rem;
 }
 
-.dark-map-tiles {
+.dark .nongki-date-range-calendar {
+  --rdp-accent-background-color: rgb(183 216 148 / 20%);
+  --rdp-range_middle-background-color: rgb(183 216 148 / 12%);
+  --rdp-range_middle-color: #d1edd3;
+  color: #d1edd3;
+}
+
+.dark .dark-map-tiles {
   filter: brightness(0.6) invert(1) contrast(3) hue-rotate(200deg) saturate(0.3) brightness(0.7);
 }

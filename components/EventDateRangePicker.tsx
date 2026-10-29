@@ -108,13 +108,13 @@ export default function EventDateRangePicker({
           aria-haspopup="dialog"
           aria-expanded={isOpen}
           onClick={() => setIsOpen((open) => !open)}
-          className={`${inputClassName} mt-0 flex min-h-12 w-full items-center justify-between gap-3 rounded-lg text-left focus:ring-2 focus:outline-none`}
+          className={`${inputClassName} mt-0 flex min-h-12 w-full items-center justify-between gap-3 rounded-xl text-left focus:ring-2 focus:outline-none`}
         >
           <span className="flex min-w-0 items-center gap-3">
             <CalendarDays
               aria-hidden="true"
               size={18}
-              className="shrink-0 text-secondary-dark"
+              className="shrink-0 text-slate-400 dark:text-[#ACC5A6]/70"
             />
             <span className="truncate">
               {triggerLabel}
@@ -128,7 +128,7 @@ export default function EventDateRangePicker({
           <ChevronDown
             aria-hidden="true"
             size={18}
-            className={`shrink-0 text-secondary-dark transition-transform ${
+            className={`shrink-0 text-slate-400 transition-transform dark:text-[#ACC5A6]/70 ${
               isOpen ? "rotate-180" : ""
             }`}
           />
@@ -138,7 +138,7 @@ export default function EventDateRangePicker({
           <div
             role="dialog"
             aria-label="Choose event dates and times"
-            className="absolute left-0 top-full z-50 mt-2 w-full min-w-[min(22rem,calc(100vw-2rem))] rounded-2xl bg-white p-4 shadow-[0_8px_32px_rgba(15,23,42,0.12)] sm:w-auto"
+            className="absolute left-0 top-full z-50 mt-2 w-full min-w-[min(22rem,calc(100vw-2rem))] rounded-2xl border border-slate-100 bg-white p-4 shadow-[0_8px_32px_rgba(15,23,42,0.12)] dark:border-[#5C7057]/50 dark:bg-[#3b4a38] dark:shadow-none sm:w-auto"
           >
             <DayPicker
               mode="range"
@@ -149,11 +149,11 @@ export default function EventDateRangePicker({
               className="nongki-date-range-calendar mx-auto"
             />
 
-            <div className="mt-4 grid grid-cols-2 gap-3 border-t border-secondary-dark/10 pt-4">
+            <div className="mt-4 grid grid-cols-2 gap-3 border-t border-slate-200/60 pt-4 dark:border-[#5C7057]/50">
               <div>
                 <label
                   htmlFor="event-start-time"
-                  className="mb-1.5 block text-xs font-semibold text-secondary-dark"
+                  className="mb-1.5 block text-[13px] font-medium text-slate-500 dark:text-[#ACC5A6]"
                 >
                   Start time
                 </label>
@@ -163,13 +163,13 @@ export default function EventDateRangePicker({
                   value={startTime}
                   required
                   onChange={(event) => setStartTime(event.target.value)}
-                  className="block h-11 w-full rounded-lg border border-secondary-dark/20 bg-white px-3 text-sm text-primary-dark focus:border-primary-light focus:outline-none focus:ring-4 focus:ring-primary-light/40"
+                  className="block h-11 w-full rounded-xl border border-slate-200/60 bg-white px-3 text-sm text-slate-800 focus:border-primary-light focus:outline-none focus:ring-4 focus:ring-primary-light/40 dark:border-[#5C7057]/50 dark:bg-[#2b3629] dark:text-[#D1EDD3]"
                 />
               </div>
               <div>
                 <label
                   htmlFor="event-end-time"
-                  className="mb-1.5 block text-xs font-semibold text-secondary-dark"
+                  className="mb-1.5 block text-[13px] font-medium text-slate-500 dark:text-[#ACC5A6]"
                 >
                   End time
                 </label>
@@ -179,13 +179,13 @@ export default function EventDateRangePicker({
                   value={endTime}
                   required
                   onChange={(event) => setEndTime(event.target.value)}
-                  className="block h-11 w-full rounded-lg border border-secondary-dark/20 bg-white px-3 text-sm text-primary-dark focus:border-primary-light focus:outline-none focus:ring-4 focus:ring-primary-light/40"
+                  className="block h-11 w-full rounded-xl border border-slate-200/60 bg-white px-3 text-sm text-slate-800 focus:border-primary-light focus:outline-none focus:ring-4 focus:ring-primary-light/40 dark:border-[#5C7057]/50 dark:bg-[#2b3629] dark:text-[#D1EDD3]"
                 />
               </div>
             </div>
 
             {hasCompleteRange && !isValidRange && (
-              <p role="alert" className="mt-3 text-sm text-red-600">
+              <p role="alert" className="mt-3 text-sm text-red-600 dark:text-rose-300">
                 The end date and time must not be before the start.
               </p>
             )}
@@ -194,7 +194,7 @@ export default function EventDateRangePicker({
               type="button"
               onClick={() => setIsOpen(false)}
               disabled={!isValidRange}
-              className="mt-4 min-h-11 w-full rounded-xl bg-primary-light px-4 py-2.5 text-sm font-semibold text-primary-dark transition duration-150 hover:bg-secondary-light active:scale-[0.98] focus:outline-none focus:ring-4 focus:ring-primary-light/40 disabled:cursor-not-allowed disabled:opacity-50"
+              className="mt-4 inline-flex min-h-11 w-full items-center justify-center rounded-xl bg-secondary-light/40 px-4 py-2.5 text-sm font-semibold text-secondary-dark transition-all hover:bg-secondary-light active:scale-[0.98] focus:outline-none focus:ring-4 focus:ring-primary-light/40 disabled:cursor-not-allowed disabled:opacity-50 dark:bg-[#5C7057]/40 dark:text-[#D1EDD3] dark:hover:bg-[#5C7057]/70"
             >
               Done
             </button>
